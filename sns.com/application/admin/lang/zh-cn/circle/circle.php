@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'Pid'          => '父ID',
+    'Title'        => '名称',
+    'Titlesub'     => '小标题',
+    'Iconimage'    => '图标',
+    'Weigh'        => '排序',
+    'Status'       => '状态',
+    'Status 0'     => '审核中',
+    'Set status to 0'=> '设为审核中',
+    'Status 1'     => '正常',
+    'Set status to 1'=> '设为正常',
+    'Status 2'     => '拒绝',
+    'Set status to 2'=> '设为拒绝',
+    'User_id'      => '管理员',
+    'Bannerimage'  => '幻灯',
+    'Follow_num'   => '关注数',
+    'Recswitch'    => '推荐',
+    'Zan_num'      => '点赞数',
+    'Post_num'     => '帖子数',
+    'Hotswitch'    => '热门',
+    'Payswitch'    => '付费',
+    'Bg'           => '背景颜色',
+    'Desc'         => '圈子描述',
+    'Privpostdata' => '发帖模式:全员、管理员可发',
+    'Privcomdata'  => '评论模式:全员可评,禁止评论',
+    'Createtime'   => '创建时间',
+    'Updatetime'   => '更新时间'
+];

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
@@ -10,12 +11,11 @@ import 'interceptors/log_interceptor.dart';
 
 Dio _initDio() {
   BaseOptions baseOpts = BaseOptions(
-    connectTimeout: const Duration(seconds: 50000),
-    baseUrl: AppConfig.host,
-    responseType: ResponseType.plain, // 数据类型
-    receiveDataWhenStatusError: true,
-    contentType: "application/x-www-form-urlencoded"
-  );
+      connectTimeout: const Duration(seconds: 50000),
+      baseUrl: AppConfig.host,
+      responseType: ResponseType.plain, // 数据类型
+      receiveDataWhenStatusError: true,
+      contentType: "application/x-www-form-urlencoded");
   Dio dioClient = Dio(baseOpts); // 实例化请求，可以传入options参数
   dioClient.interceptors.addAll([
     HeaderInterceptors(),
@@ -67,7 +67,8 @@ Future<T> safeRequest<T>(
   Map<String, dynamic>? queryParameters,
   CancelToken? cancelToken,
 }) async {
-  Request.dioClient.interceptors.add(CookieManager(await CookieUtil.cookieJar));
+  //Request.dioClient.interceptors.add(CookieManager(await CookieUtil.cookieJar));
+
   try {
     return Request.dioClient
         .request(

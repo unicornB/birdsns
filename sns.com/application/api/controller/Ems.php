@@ -31,8 +31,8 @@ class Ems extends Api
     {
         $email = $this->request->post("email");
         $event = $this->request->post("event");
-        $event = $event ? $event : 'register';
 
+        $event = $event ? $event : 'register';
         if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->error(__('邮箱格式错误'));
         }
@@ -41,16 +41,16 @@ class Ems extends Api
         }
 
         //发送前验证码
-        if (config('fastadmin.user_api_captcha')) {
-
-            if (!preg_match("/^[a-z0-9]{4,6}\$/i", $captcha)) {
-                $this->error(__('验证码格式错误'));
-            }
-
-            if (!\think\Validate::is($captcha, 'captcha')) {
-                $this->error("验证码不正确");
-            }
-        }
+//        if (config('fastadmin.user_api_captcha')) {
+//
+//            if (!preg_match("/^[a-z0-9]{4,6}\$/i", $captcha)) {
+//                $this->error(__('验证码格式错误'));
+//            }
+//
+//            if (!\think\Validate::is($captcha, 'captcha')) {
+//                $this->error("验证码不正确");
+//            }
+//        }
 
         $last = Emslib::get($email, $event);
         if ($last && time() - $last['createtime'] < 60) {

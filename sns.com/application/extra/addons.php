@@ -2,7 +2,14 @@
 
 return [
     'autoload' => false,
-    'hooks' => [],
+    'hooks' => [
+        'upgrade' => [
+            'simditor',
+        ],
+        'config_init' => [
+            'simditor',
+        ],
+    ],
     'route' => [],
     'priority' => [],
     'domain' => '',

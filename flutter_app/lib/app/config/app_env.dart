@@ -15,16 +15,16 @@ enum ENV {
 
 // dio请求前缀
 final Map<ENV, String> _baseUrl = {
-  ENV.DEV: 'https://sf.shopfly.cn/ZjYGtaulmx.php',
+  ENV.DEV: 'http://47.109.192.28:8086',
   ENV.TEST: 'https://urltest.com',
   ENV.PRE: 'https://urlpre.com',
-  ENV.PROD: 'https://url.com',
+  ENV.PROD: 'http://47.109.192.28:8086',
 };
 final Map<ENV, String> _staticBaseUrl = {
-  ENV.DEV: 'https://sf.shopfly.cn',
+  ENV.DEV: 'http://47.109.192.28:4098',
   ENV.TEST: 'https://sf.shopfly.cn',
   ENV.PRE: 'https://sf.shopfly.cn',
-  ENV.PROD: 'https://sf.shopfly.cn',
+  ENV.PROD: 'http://47.109.192.28:4098',
 };
 
 class AppEnv {

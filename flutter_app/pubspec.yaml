@@ -58,9 +58,15 @@ dependencies:
   flutter_easyloading: ^3.0.5
   cached_network_image: ^3.4.1
   event_bus: ^2.0.1
-  pull_to_refresh_flutter3: ^2.0.2
   select_dialog: ^2.0.2
   easy_stepper: ^0.8.5+1
+  extended_nested_scroll_view: ^6.2.1
+  tdesign_flutter: ^0.1.0
+  flutter_swiper_null_safety: ^1.0.2
+  json_theme_plus: ^6.6.3
+  convex_bottom_bar: ^3.2.0
+  webview_flutter: ^4.10.0
+  sprintf: ^7.0.0
 
 dev_dependencies:
   flutter_test:
@@ -116,6 +122,7 @@ flutter:
   # see https://flutter.dev/to/font-from-package
   assets:
     - assets/images/
+    - assets/themes/appainter_theme.json
   fonts:
     - family: IconFont
       fonts:

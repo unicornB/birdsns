@@ -6,6 +6,9 @@ php think crud -t circle -c circle/circle -l 0 -u -d 1
 
 php think crud -t app_menu -c app/menu -l 0 -u 1 --force=true
 php think crud -t app_banner -c app/banner -l 0 -u 1 --force=true
+
+php think crud -t page -c app/page -l 0 -u 1 --force=true
+
 ## 主要特性
 
 * 基于`Auth`验证的权限管理系统

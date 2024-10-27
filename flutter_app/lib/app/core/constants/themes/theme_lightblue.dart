@@ -450,4 +450,8 @@ final ThemeData themeLightBlue = ThemeData(
       overlayColor: WidgetStateProperty.all<Color>(Colors.grey),
     ),
   ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    unselectedItemColor: Color(0xff93a4b0),
+    selectedItemColor: Color(0xff009eff),
+  ),
 );

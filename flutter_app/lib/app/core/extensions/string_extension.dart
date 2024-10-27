@@ -6,7 +6,7 @@ import 'package:flutter_app/app/config/app_config.dart';
 
 extension StringExtension on String {
   CachedNetworkImage toCachedNetworkImage(
-      {double? width = 50, double? height = 50}) {
+      {double? width = 50, double? height = 50, BoxFit? fit}) {
     log("图片地址：${AppConfig.staticHost + this}");
     return CachedNetworkImage(
       imageUrl: AppConfig.staticHost + this,
@@ -17,14 +17,43 @@ extension StringExtension on String {
       // progressIndicatorBuilder: (context, url, progress) =>
       //     Image.asset("assets/images/default_circle.png"),
       errorWidget: (context, url, error) => const Icon(Icons.error),
+      fit: fit ?? BoxFit.cover,
     );
   }
 
-  Widget toCircleCachedNetworkImage(
-      {double? width = 50, double? height = 50, double? radius = 0}) {
+  Widget toCircleCachedNetworkImage({
+    double? width = 50,
+    double? height = 50,
+    double? radius = 0,
+    BoxFit? fit = BoxFit.cover,
+  }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius!),
-      child: toCachedNetworkImage(width: width, height: height),
+      child: toCachedNetworkImage(width: width, height: height, fit: fit),
+    );
+  }
+
+  Widget toCachedNetworkImageRemote({
+    double? width = 50,
+    double? height = 50,
+    BoxFit? fit = BoxFit.cover,
+    double? radius = 0,
+  }) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(radius!),
+      child: CachedNetworkImage(
+        imageUrl: this,
+        width: width,
+        height: height,
+        placeholder: (context, url) => Image.asset(
+            "assets/images/default_circle.png",
+            width: width,
+            height: height),
+        // progressIndicatorBuilder: (context, url, progress) =>
+        //     Image.asset("assets/images/default_circle.png"),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        fit: fit,
+      ),
     );
   }
 }

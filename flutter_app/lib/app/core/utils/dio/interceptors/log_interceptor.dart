@@ -27,6 +27,9 @@ class LogsInterceptors extends InterceptorsWrapper {
     if (AppConfig.DEBUG) {
       log("URL:${response.requestOptions.baseUrl + response.requestOptions.path},参数:${response.requestOptions.queryParameters}");
       log("响应数据：${response.data}");
+      if (response.requestOptions.data != null) {
+        print('请求参数post: ${response.requestOptions.data}');
+      }
       //print('返回参数: $response');
     }
 

@@ -3,30 +3,34 @@
     "loading": "加载中..."
   },
   "login": {
-    "title": "登录",
-    "username": "用户名",
-    "password": "密码",
-    "loading": "登录中..."
+    "title": "账号登录",
+    "email": "请输入邮箱",
+    "password": "请输入密码",
+    "loading": "登录中...",
+    "login": "登录",
+    "forgot": "忘记密码?",
+    "submit": "立即登录",
+    "agree_text1": "我已阅读并同意",
+    "agree_text2": "《用户协议》",
+    "agree_text3": "和",
+    "agree_text4": "《隐私政策》",
+    "no_account": "没有账号？",
+    "register": "立即注册"
   },
-  "order": {
-    "title": "订单",
-    "order_id": "订单号",
-    "order_status": "订单状态",
-    "order_status_0": "待支付",
-    "order_status_1": "已支付",
-    "order_status_2": "已取消",
-    "order_status_3": "已关闭",
-    "order_status_4": "已发货"
+  "register": {
+    "title": "用户注册",
+    "submit": "立即注册",
+    "code": "请输入验证码",
+    "send_code": "发送验证码",
+    "has_account": "已有账号？",
+    "back": "返回登录",
+    "send_code_time": "重新发送(%ds)",
+    "confirm_password": "请再次输入密码",
+    "username": "请输入用户名"
   },
-  "create_order": {
-    "title": "创建订单",
-    "select_car": "选择车辆",
-    "select_line": "选择线路",
-    "select_customer": "选择发货人",
-    "select_receiver": "选择收货人",
-    "select_currency": "选择货币",
-    "enter_remark": "输入备注",
-    "select_goods": "选择货物",
-    "create_order": "创建订单"
+  "publish": {
+    "title": "发布",
+    "publish": "发布",
+    "publishing": "发布中..."
   }
 }

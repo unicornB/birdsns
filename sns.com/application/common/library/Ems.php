@@ -56,17 +56,22 @@ class Ems
         if (!Hook::get('ems_send')) {
             //采用框架默认的邮件推送
             Hook::add('ems_send', function ($params) {
+
                 $obj = new Email();
                 $result = $obj
                     ->to($params->email)
                     ->subject('请查收你的验证码！')
                     ->message("你的验证码是：" . $params->code . "，" . ceil(self::$expire / 60) . "分钟内有效。")
                     ->send();
+                \think\Log::record("ems_send".$obj->getError(),"info");
+                \think\Log::record("ems_send1".$obj->options['mail_from'],"info");
+                \think\Log::record("ems_send1".$obj->options['mail_smtp_pass'],"info");
                 return $result;
             });
         }
         $result = Hook::listen('ems_send', $ems, null, true);
         if (!$result) {
+
             $ems->delete();
             return false;
         }

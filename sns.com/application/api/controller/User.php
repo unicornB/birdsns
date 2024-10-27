@@ -32,7 +32,8 @@ class User extends Api
      */
     public function index()
     {
-        $this->success('', ['welcome' => $this->auth->nickname]);
+        $user=$this->auth->getUserinfo();
+        $this->success("",$user);
     }
 
     /**
@@ -112,7 +113,7 @@ class User extends Api
         $username = $this->request->post('username');
         $password = $this->request->post('password');
         $email = $this->request->post('email');
-        $mobile = $this->request->post('mobile');
+        $mobile = $this->request->post('mobile',null);
         $code = $this->request->post('code');
         if (!$username || !$password) {
             $this->error(__('Invalid parameters'));
@@ -123,7 +124,11 @@ class User extends Api
         if ($mobile && !Validate::regex($mobile, "^1\d{10}$")) {
             $this->error(__('Mobile is incorrect'));
         }
-        $ret = Sms::check($mobile, $code, 'register');
+//        $ret = Sms::check($mobile, $code, 'register');
+//        if (!$ret) {
+//            $this->error(__('Captcha is incorrect'));
+//        }
+        $ret = Ems::check($email, $code, 'register');
         if (!$ret) {
             $this->error(__('Captcha is incorrect'));
         }

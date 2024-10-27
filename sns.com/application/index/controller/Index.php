@@ -3,6 +3,7 @@
 namespace app\index\controller;
 
 use app\common\controller\Frontend;
+use app\common\model\app\Page;
 
 class Index extends Frontend
 {
@@ -15,5 +16,13 @@ class Index extends Frontend
     {
         return $this->view->fetch();
     }
+
+    public function article(){
+        $name=$this->request->param("pageid");
+        $article=Page::where("name",$name)->where("displayswitch",1)->find();
+        $this->view->assign("article",$article);
+        return $this->view->fetch();
+    }
+
 
 }

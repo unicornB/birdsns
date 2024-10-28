@@ -44,6 +44,9 @@ class LogsInterceptors extends InterceptorsWrapper {
         '请求异常信息: ${err.response!}',
       );
     }
+    if (err.response!.statusCode == 401) {
+      log("token失效，请重新登录");
+    }
     return handler.next(err);
   }
 }

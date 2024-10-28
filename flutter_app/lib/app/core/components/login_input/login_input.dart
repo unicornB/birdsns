@@ -47,12 +47,15 @@ class LoginInput extends StatelessWidget {
       backgroundColor: const Color(0xffF2F2F2),
       contentPadding: EdgeInsets.symmetric(
         horizontal: 10.rpx,
-        vertical: 16.rpx,
+        vertical: 26.rpx,
       ),
       hintText: hintText,
       rightBtn: rightBtn,
-      hintTextStyle:
-          TextStyle(fontSize: 32.rpx, color: const Color(0xff999999)),
+      hintTextStyle: TextStyle(
+        fontSize: 28.rpx,
+        color: const Color(0xff999999),
+      ),
+      textStyle: TextStyle(fontSize: 28.rpx),
       onChanged: onChanged,
       onClearTap: onClearTap,
       obscureText: obscureText,

@@ -67,7 +67,10 @@ class LoginView extends GetView<LoginController> {
             SizedBox(height: 20.rpx),
             Text(
               'login_title'.tr,
-              style: const TextStyle(fontSize: 20, color: Color(0xff383838)),
+              style: TextStyle(
+                fontSize: 32.rpx,
+                color: const Color(0xff383838),
+              ),
             ),
             SizedBox(height: 20.rpx),
             LoginInput(
@@ -124,14 +127,20 @@ class LoginView extends GetView<LoginController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('login_no_account'.tr),
+                Text(
+                  'login_no_account'.tr,
+                  style: TextStyle(fontSize: 28.rpx),
+                ),
                 GestureDetector(
                   onTap: () {
                     Get.toNamed(Routes.REGISTER);
                   },
                   child: Text(
                     'login_register'.tr,
-                    style: const TextStyle(color: AppColor.primaryColor),
+                    style: TextStyle(
+                      color: AppColor.primaryColor,
+                      fontSize: 28.rpx,
+                    ),
                   ),
                 ),
               ],
@@ -141,33 +150,48 @@ class LoginView extends GetView<LoginController> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TDCheckbox(
-                  style: TDCheckboxStyle.square,
-                  titleMaxLine: 1,
-                  checked: controller.agree.value,
-                  onCheckBoxChanged: (selected) {
-                    controller.agree.value = selected;
-                    controller.onAllChanged();
-                  },
+                Transform.scale(
+                  scale: 0.8,
+                  child: TDCheckbox(
+                    style: TDCheckboxStyle.square,
+                    titleMaxLine: 1,
+                    checked: controller.agree.value,
+                    onCheckBoxChanged: (selected) {
+                      controller.agree.value = selected;
+                      controller.onAllChanged();
+                    },
+                  ),
                 ),
-                Text('login_agree_text1'.tr),
+                Text(
+                  'login_agree_text1'.tr,
+                  style: TextStyle(fontSize: 28.rpx),
+                ),
                 GestureDetector(
                   onTap: () {
                     AppUtil.toUserAgree();
                   },
                   child: Text(
                     'login_agree_text2'.tr,
-                    style: const TextStyle(color: AppColor.primaryColor),
+                    style: TextStyle(
+                      color: AppColor.primaryColor,
+                      fontSize: 28.rpx,
+                    ),
                   ),
                 ),
-                Text('login_agree_text3'.tr),
+                Text(
+                  'login_agree_text3'.tr,
+                  style: TextStyle(fontSize: 28.rpx),
+                ),
                 GestureDetector(
                   onTap: () {
                     AppUtil.toPriva();
                   },
                   child: Text(
                     'login_agree_text4'.tr,
-                    style: const TextStyle(color: AppColor.primaryColor),
+                    style: TextStyle(
+                      color: AppColor.primaryColor,
+                      fontSize: 28.rpx,
+                    ),
                   ),
                 )
               ],

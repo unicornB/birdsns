@@ -15,6 +15,9 @@ Dio _initDio() {
       baseUrl: AppConfig.host,
       responseType: ResponseType.plain, // 数据类型
       receiveDataWhenStatusError: true,
+      validateStatus: (int? status) {
+        return status != null;
+      },
       contentType: "application/x-www-form-urlencoded");
   Dio dioClient = Dio(baseOpts); // 实例化请求，可以传入options参数
   dioClient.interceptors.addAll([

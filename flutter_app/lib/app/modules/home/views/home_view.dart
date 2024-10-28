@@ -1,11 +1,10 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/core/constants/colors/app_color.dart';
+import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/routes/app_pages.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
 import '../../../core/components/color_status_bar/color_status_bar.dart';
 import '../controllers/home_controller.dart';
 
@@ -13,30 +12,75 @@ class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
-    return ColoredStatusBar(
-      child: Scaffold(
-        body: _scaffoldBody(),
-        bottomNavigationBar: Obx(
-          () => ConvexAppBar(
-            // type: BottomNavigationBarType.fixed,
-            // currentIndex: controller.currentIndex.value, // 当前页
-            // selectedFontSize: 24.sp, // 选中的字体大小
-            // unselectedFontSize: 24.sp, // 未选中的字体大小
-            initialActiveIndex: controller.currentIndex.value,
-            backgroundColor: Colors.white,
-            color: const Color(0xff333333),
-            activeColor: AppColor.primaryColor,
-            style: TabStyle.react,
-            onTap: (int idx) async {
-              if (idx == 2) {
-                // 跳转到发布页面
-                Get.toNamed(Routes.PUBLISH);
-              } else {
-                controller.currentIndex.value = idx;
-                controller.pageController.jumpToPage(idx); // 跳转
-              }
-            },
-            items: _generateBottomBars(), // 底部菜单导航
+    return Scaffold(
+      body: _scaffoldBody(),
+      bottomNavigationBar: Obx(
+        () => BottomAppBar(
+          notchMargin: 0,
+          padding: EdgeInsets.symmetric(vertical: 1.rpx),
+          height: 100.rpx,
+          shape: const CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _bottomNavigationBarItem(
+                icon: "assets/images/bottom/home_line.svg",
+                activeIcon: "assets/images/bottom/home_fill.svg",
+                title: "首页",
+                active: controller.currentIndex.value == 0,
+                onTap: () {
+                  controller.currentIndex.value = 0;
+                  controller.pageController.jumpToPage(0);
+                },
+              ),
+              _bottomNavigationBarItem(
+                icon: "assets/images/bottom/shopping_line.svg",
+                activeIcon: "assets/images/bottom/shopping_fill.svg",
+                title: "购物",
+                active: controller.currentIndex.value == 1,
+                onTap: () {
+                  controller.currentIndex.value = 1;
+                  controller.pageController.jumpToPage(1);
+                },
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.PUBLISH);
+                },
+                child: Container(
+                  width: 60,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.rpx),
+                    color: AppColor.primaryColor,
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              _bottomNavigationBarItem(
+                icon: "assets/images/bottom/message_line.svg",
+                activeIcon: "assets/images/bottom/message_fill.svg",
+                title: "消息",
+                active: controller.currentIndex.value == 2,
+                onTap: () {
+                  controller.currentIndex.value = 2;
+                  controller.pageController.jumpToPage(2);
+                },
+              ),
+              _bottomNavigationBarItem(
+                icon: "assets/images/bottom/user_line.svg",
+                activeIcon: "assets/images/bottom/user_fill.svg",
+                title: "我的",
+                active: controller.currentIndex.value == 3,
+                onTap: () {
+                  controller.currentIndex.value = 3;
+                  controller.pageController.jumpToPage(3);
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -68,17 +112,33 @@ class HomeView extends GetView<HomeController> {
     }
   }
 
-  /// 生成底部菜单导航
-  List<TabItem> _generateBottomBars() {
-    try {
-      return controller.appBottomBar.map<TabItem>((itemData) {
-        return TabItem(
-          icon: itemData['icon'] as IconData,
-          title: itemData['title'] as String,
-        );
-      }).toList();
-    } catch (e) {
-      throw Exception('appBottomBar数据缺少参数、或字段类型不匹配, errorMsg:$e');
-    }
+  Widget _bottomNavigationBarItem({
+    String? icon,
+    String? activeIcon,
+    String? title,
+    bool? active = false,
+    void Function()? onTap,
+  }) {
+    final Widget svg = SvgPicture.asset(
+      active! ? activeIcon! : icon!,
+      width: 50.rpx,
+      height: 50.rpx,
+      color: active ? Colors.blue : Colors.grey,
+    );
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          SizedBox(height: 8.rpx),
+          svg,
+          Text(
+            title ?? '',
+            style: TextStyle(
+                color: active ? AppColor.primaryColor : Colors.grey,
+                fontSize: 24.rpx),
+          )
+        ],
+      ),
+    );
   }
 }

@@ -38,13 +38,12 @@ dependencies:
   get: ^4.6.6
   intl: ^0.19.0
   dio: 5.7.0
-  provider: 6.1.2
   flutter_screenutil: 5.9.3
   jh_debug: 2.0.1
   ana_page_loop: ^1.0.1
   shared_preferences: 2.3.2 # 持久性存储
   synchronized: 3.2.0
-  ota_update: 6.0.0
+  # ota_update: 6.0.0
   package_info_plus: 8.0.2 # app相关信息获取
   url_launcher: 6.3.0
   permission_handler: 11.3.1 # 权限
@@ -67,6 +66,8 @@ dependencies:
   convex_bottom_bar: ^3.2.0
   webview_flutter: ^4.10.0
   sprintf: ^7.0.0
+  bottom_cupertino_tabbar: ^1.0.13
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -122,6 +123,8 @@ flutter:
   # see https://flutter.dev/to/font-from-package
   assets:
     - assets/images/
+    - assets/images/bottom/
+    - assets/images/svg/
     - assets/themes/appainter_theme.json
   fonts:
     - family: IconFont

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app/core/components/color_status_bar/color_status_bar.dart';
 import 'package:flutter_app/app/core/components/custom_icons/app_icon.dart';
 import 'package:flutter_app/app/core/constants/colors/app_color.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
@@ -20,23 +21,25 @@ class HomePage extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: AppBar(
-          leadingWidth: 0,
-          titleSpacing: 0,
-          title: Obx(() => _appbarWidget()),
-          actions: [
-            IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {},
-              icon: const Icon(AppIcon.search),
-            )
-          ],
+    return ColoredStatusBar(
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            leadingWidth: 0,
+            titleSpacing: 0,
+            title: Obx(() => _appbarWidget()),
+            actions: [
+              IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {},
+                icon: const Icon(AppIcon.search),
+              )
+            ],
+          ),
         ),
+        body: _buildBody(),
       ),
-      body: _buildBody(),
     );
   }
 
@@ -72,7 +75,10 @@ class HomePage extends GetView<HomePageController> {
         child: Text(
           controller.tabValues[i],
           style: TextStyle(
-            fontSize: controller.tabIndex.value == i ? 36.rpx : 32.rpx,
+            fontSize: controller.tabIndex.value == i ? 32.rpx : 30.rpx,
+            fontWeight: controller.tabIndex.value == i
+                ? FontWeight.bold
+                : FontWeight.normal,
           ),
         ),
       ));

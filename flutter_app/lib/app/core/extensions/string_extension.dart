@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/config/app_config.dart';
+import 'package:flutter_svg/svg.dart';
 
 extension StringExtension on String {
   CachedNetworkImage toCachedNetworkImage(
@@ -56,4 +57,16 @@ extension StringExtension on String {
       ),
     );
   }
+
+  SvgPicture toSvg({double height = 15, double width = 15, Color? color}) =>
+      SvgPicture.asset(
+        this,
+        color: color,
+        width: width,
+        height: width,
+        semanticsLabel: 'A red up arrow',
+      );
+
+  Image toAssetImage({double height = 50, double width = 50}) =>
+      Image.asset(this, height: height, width: width);
 }

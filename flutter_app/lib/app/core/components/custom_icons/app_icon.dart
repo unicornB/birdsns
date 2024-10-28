@@ -25,4 +25,9 @@ class AppIcon {
   static const IconData eyeClose = IconData(0xe6cd, fontFamily: _kFontFam);
   static const IconData eyeOpen = IconData(0xe621, fontFamily: _kFontFam);
   static const IconData verification = IconData(0xe60d, fontFamily: _kFontFam);
+  static const IconData posts = IconData(0xe625, fontFamily: _kFontFam);
+  static const IconData comment = IconData(0xe8c5, fontFamily: _kFontFam);
+  static const IconData favorites = IconData(0xe645, fontFamily: _kFontFam);
+  static const IconData good = IconData(0xe612, fontFamily: _kFontFam);
+  static const IconData up = IconData(0xe6dc, fontFamily: _kFontFam);
 }

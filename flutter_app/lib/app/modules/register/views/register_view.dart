@@ -23,7 +23,7 @@ class RegisterView extends GetView<RegisterController> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: SizedBox(
-            height: Get.height - 120,
+            height: Get.height - 100,
             child: Stack(
               fit: StackFit.loose,
               children: [_logoView(), Obx(() => _loginForm())],
@@ -68,7 +68,10 @@ class RegisterView extends GetView<RegisterController> {
             SizedBox(height: 20.rpx),
             Text(
               'register_title'.tr,
-              style: const TextStyle(fontSize: 20, color: Color(0xff383838)),
+              style: TextStyle(
+                fontSize: 32.rpx,
+                color: const Color(0xff383838),
+              ),
             ),
             SizedBox(height: 20.rpx),
             LoginInput(
@@ -106,6 +109,14 @@ class RegisterView extends GetView<RegisterController> {
                   shape: TDButtonShape.rectangle,
                   theme: TDButtonTheme.primary,
                   disabled: controller.sendCodeDisabled.value,
+                  textStyle: TextStyle(
+                    fontSize: 20.rpx,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  disableTextStyle: TextStyle(
+                    fontSize: 28.rpx,
+                    fontWeight: FontWeight.w400,
+                  ),
                   onTap: () {
                     controller.sendCode();
                   },
@@ -166,14 +177,20 @@ class RegisterView extends GetView<RegisterController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('register_has_account'.tr),
+                Text(
+                  'register_has_account'.tr,
+                  style: TextStyle(fontSize: 28.rpx),
+                ),
                 GestureDetector(
                   onTap: () {
                     Get.back();
                   },
                   child: Text(
                     'register_back'.tr,
-                    style: const TextStyle(color: AppColor.primaryColor),
+                    style: TextStyle(
+                      color: AppColor.primaryColor,
+                      fontSize: 28.rpx,
+                    ),
                   ),
                 ),
               ],
@@ -183,33 +200,46 @@ class RegisterView extends GetView<RegisterController> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TDCheckbox(
-                  style: TDCheckboxStyle.square,
-                  titleMaxLine: 1,
-                  checked: controller.agree.value,
-                  onCheckBoxChanged: (selected) {
-                    controller.agree.value = selected;
-                    controller.onAllChanged();
-                  },
+                Transform.scale(
+                  scale: 0.8,
+                  child: TDCheckbox(
+                    style: TDCheckboxStyle.square,
+                    titleMaxLine: 1,
+                    checked: controller.agree.value,
+                    onCheckBoxChanged: (selected) {
+                      controller.agree.value = selected;
+                      controller.onAllChanged();
+                    },
+                  ),
                 ),
-                Text('login_agree_text1'.tr),
+                Text(
+                  'login_agree_text1'.tr,
+                  style: TextStyle(fontSize: 28.rpx),
+                ),
                 GestureDetector(
                   onTap: () {
                     AppUtil.toUserAgree();
                   },
                   child: Text(
                     'login_agree_text2'.tr,
-                    style: const TextStyle(color: AppColor.primaryColor),
+                    style: TextStyle(
+                        color: AppColor.primaryColor, fontSize: 28.rpx),
                   ),
                 ),
-                Text('login_agree_text3'.tr),
+                Text(
+                  'login_agree_text3'.tr,
+                  style: TextStyle(fontSize: 28.rpx),
+                ),
                 GestureDetector(
                   onTap: () {
                     AppUtil.toPriva();
                   },
                   child: Text(
                     'login_agree_text4'.tr,
-                    style: const TextStyle(color: AppColor.primaryColor),
+                    style: TextStyle(
+                      color: AppColor.primaryColor,
+                      fontSize: 28.rpx,
+                    ),
                   ),
                 )
               ],

@@ -30,12 +30,6 @@ class HomeController extends GetxController {
       'miidle': false,
     },
     {
-      'title': '发布',
-      'icon': AppIcon.pub,
-      'body': const PubPage(),
-      'miidle': true,
-    },
-    {
       'title': '消息',
       'icon': AppIcon.message,
       'body': const MessagePage(),

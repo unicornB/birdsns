@@ -37,6 +37,7 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+      transition: Transition.downToUp,
     ),
     GetPage(
       name: _Paths.WEB,

@@ -12,7 +12,8 @@ class HeaderInterceptors extends InterceptorsWrapper {
   // 请求拦截
   @override
   onRequest(RequestOptions options, handler) async {
-    String token = await SpUtil.getData<String>(CacheConstants.loginToken);
+    String token =
+        await SpUtil.getData<String>(CacheConstants.loginToken, defValue: "");
     log("token: $token");
     if (token.isNotEmpty) {
       options.headers['token'] = token;

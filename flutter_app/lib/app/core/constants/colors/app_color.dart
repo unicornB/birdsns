@@ -12,4 +12,5 @@ class AppColor {
   static const Color line = Color(0xFFF0F0F0);
   static const Color darkBg = Color(0xFF111418);
   static const Color darkContBg = Color(0xFF111418);
+  static const Color subBg = Color(0xFFF0F0F0);
 }

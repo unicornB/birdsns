@@ -11,6 +11,7 @@ use fast\Random;
 use think\captcha\Captcha;
 use think\Config;
 use think\Hook;
+use think\Log;
 
 /**
  * 公共接口
@@ -134,14 +135,14 @@ class Common extends Api
             $file = $this->request->file('file');
             try {
                 $upload = new Upload($file);
-                $attachment = $upload->upload();
+                $attachment = $upload->upload(null,0);
             } catch (UploadException $e) {
                 $this->error($e->getMessage());
             } catch (\Exception $e) {
                 $this->error($e->getMessage());
             }
-
-            $this->success(__('Uploaded successful'), ['url' => $attachment->url, 'fullurl' => cdnurl($attachment->url, true)]);
+            $cdnurl = \think\Config::get('upload.cdnurl');
+            $this->success(__('Uploaded successful'), ['url' => $attachment->url, 'fullurl' => cdnurl($attachment->url, $cdnurl)]);
         }
 
     }

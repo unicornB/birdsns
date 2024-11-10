@@ -1,12 +1,19 @@
-import 'package:flutter_app/app/core/middleware/auth_middleware.dart';
-import 'package:flutter_app/app/modules/mine/bindings/userinfo_binding.dart';
-import 'package:flutter_app/app/modules/mine/views/userinfo_view.dart';
 import 'package:get/get.dart';
 
+import '../core/middleware/auth_middleware.dart';
+import '../modules/circle/bindings/circle_binding.dart';
+import '../modules/circle/views/circle_create_view.dart';
+import '../modules/circle/views/circle_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/mine/bindings/userinfo_binding.dart';
+import '../modules/mine/views/nickname_view.dart';
+import '../modules/mine/views/sign_view.dart';
+import '../modules/mine/views/userinfo_view.dart';
+import '../modules/posts/bindings/posts_binding.dart';
+import '../modules/posts/views/posts_view.dart';
 import '../modules/publish/bindings/publish_binding.dart';
 import '../modules/publish/views/publish_view.dart';
 import '../modules/register/bindings/register_binding.dart';
@@ -32,6 +39,9 @@ class AppPages {
       page: () => const PublishView(),
       binding: PublishBinding(),
       transition: Transition.downToUp,
+      middlewares: [
+        AuthMiddleware(),
+      ],
     ),
     GetPage(
       name: _Paths.LOGIN,
@@ -51,11 +61,46 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.USERINFO,
-      page: () => UserinfoView(),
+      page: () => const UserinfoView(),
       binding: UserinfoBinding(),
+      transition: Transition.rightToLeft,
       middlewares: [
         AuthMiddleware(),
       ],
+    ),
+    GetPage(
+      name: _Paths.NICKNAME,
+      page: () => const NicknameView(),
+      binding: UserinfoBinding(),
+      transition: Transition.rightToLeft,
+      middlewares: [
+        AuthMiddleware(),
+      ],
+    ),
+    GetPage(
+      name: _Paths.USERSIGN,
+      page: () => const SignView(),
+      binding: UserinfoBinding(),
+      transition: Transition.rightToLeft,
+      middlewares: [
+        AuthMiddleware(),
+      ],
+    ),
+    GetPage(
+      name: _Paths.CIRCLE,
+      page: () => const CircleView(),
+      binding: CircleBinding(),
+    ),
+    GetPage(
+      name: _Paths.CIRCLECREATE,
+      page: () => const CircleCreateView(),
+      binding: CircleBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.POSTS,
+      page: () => const PostsView(),
+      binding: PostsBinding(),
     ),
   ];
 }

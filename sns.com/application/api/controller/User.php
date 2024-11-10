@@ -3,8 +3,10 @@
 namespace app\api\controller;
 
 use app\common\controller\Api;
+use app\common\exception\UploadException;
 use app\common\library\Ems;
 use app\common\library\Sms;
+use app\common\library\Upload;
 use fast\Random;
 use think\Config;
 use think\Validate;
@@ -170,6 +172,8 @@ class User extends Api
         $nickname = $this->request->post('nickname');
         $bio = $this->request->post('bio');
         $avatar = $this->request->post('avatar', '', 'trim,strip_tags,htmlspecialchars');
+        $gender=$this->request->post('gender');
+        $birthday=$this->request->post('birthday');
         if ($username) {
             $exists = \app\common\model\User::where('username', $username)->where('id', '<>', $this->auth->id)->find();
             if ($exists) {
@@ -184,8 +188,18 @@ class User extends Api
             }
             $user->nickname = $nickname;
         }
-        $user->bio = $bio;
-        $user->avatar = $avatar;
+        if($avatar){
+            $user->avatar = $avatar;
+        }
+        if($bio){
+            $user->bio = $bio;
+        }
+        if($gender){
+            $user->gender = $gender;
+        }
+        if($birthday){
+            $user->birthday=$birthday;
+        }
         $user->save();
         $this->success();
     }
@@ -349,5 +363,46 @@ class User extends Api
         } else {
             $this->error($this->auth->getError());
         }
+    }
+
+    //修改昵称//一个月修改
+    public function updatenickname(){
+        $nickname = $this->request->post('nickname');
+        if(empty($nickname)){
+            $this->error("请输入昵称");
+        }
+        $user=$this->auth->getUser();
+        if($user->nickname_edittime>0){
+            $difference = abs( time()- $user->nickname_edittime);
+            $days = floor($difference / (60 * 60 * 24));
+            if($days>30){
+                $this->error("30天内只允许修改一次");
+            }
+        }
+        $exists = \app\common\model\User::where('nickname', $nickname)->where('id', '<>', $this->auth->id)->find();
+        if ($exists) {
+            $this->error(__('Nickname already exists'));
+        }
+        $user->nickname=$nickname;
+        $user->save();
+        $this->success();
+    }
+    public function updateavatar(){
+        $user = $this->auth->getUser();
+        $attachment = null;
+        //默认普通上传文件
+        $file = $this->request->file('file');
+        try {
+            $upload = new Upload($file);
+            $attachment = $upload->upload(null,0);
+        } catch (UploadException|\Exception $e) {
+            $this->error($e->getMessage());
+        }
+        //删除原图片
+        $wfsUploadUrl=Config::get("upload.wfsurl")."/delete".$user->avatar;
+        wfs_delete($wfsUploadUrl);
+        $user->avatar=$attachment->url;
+        $user->save();
+        $this->success("success");
     }
 }

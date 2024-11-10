@@ -24,7 +24,7 @@ class MinePage extends GetView<MineController> {
           controller: controller.scrollController,
           child: Column(
             children: [
-              headerView(),
+              Obx(() => headerView()),
               SizedBox(
                 height: 30.rpx,
               ),
@@ -60,10 +60,12 @@ class MinePage extends GetView<MineController> {
                 TDAvatar(
                   size: TDAvatarSize.large,
                   type: TDAvatarType.normal,
+                  avatarUrl: AppService.to.loginUserInfo.value.avatar ?? "",
                   avatarSize: 160.rpx,
+                  avatarDisplayBorder: 10,
                   onTap: () {
                     if (AppService.to.isLogined.value) {
-                      //Get.toNamed(Routes.USER_INFO);
+                      Get.toNamed(Routes.USERINFO);
                     } else {
                       Get.toNamed(Routes.LOGIN);
                     }

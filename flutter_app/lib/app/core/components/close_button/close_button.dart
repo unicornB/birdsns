@@ -8,18 +8,21 @@ class CustomCloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Icon(
-        AppIcon.close,
-        color: Colors.white,
-        size: 15,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.center,
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.7),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Icon(
+          AppIcon.close,
+          color: Colors.white,
+          size: 15,
+        ),
       ),
     );
   }

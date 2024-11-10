@@ -2,8 +2,10 @@
 
 // 公共助手函数
 
+use app\common\library\Ip2region;
 use think\Config;
 use think\exception\HttpResponseException;
+use think\Log;
 use think\Response;
 
 if (!function_exists('__')) {
@@ -560,5 +562,43 @@ if (!function_exists('wfs_delete')) {
         }
         curl_close($ch);
         return $response;
+    }
+}
+if(!function_exists('ip_search')){
+    function ip_search($ip){
+        $dbFile = ROOT_PATH."ip2region/ip2region.xdb";
+        $searcher = Ip2region::newWithFileOnly($dbFile);
+        $region = $searcher->search($ip);
+        //中国|0|四川省|成都市|联通
+        return $region;
+    }
+}
+if(!function_exists('acc2mp3')){
+    function acc2mp3($inFile,$outFile){
+        $ffmpegRoot=ROOT_PATH.'ffmpeg/ffmpeg';
+        $command = $ffmpegRoot." -i $inFile -acodec libmp3lame $outFile";
+        $res=exec($command);
+        Log::record("aac转mp3：".$res,'info');
+    }
+}
+if(!function_exists('get_video_info')){
+    function get_video_info($videoFile){
+        $ffmpegRoot=ROOT_PATH.'ffmpeg/ffprobe';
+        // 获取视频时长
+        $durationCommand = $ffmpegRoot." -v error -show_entries format=duration -of csv=p=0 $videoFile";
+        exec($durationCommand, $durationOutput);
+        $duration = $durationOutput[0];
+
+        // 获取视频宽度和高度
+        $sizeCommand = $ffmpegRoot." -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 $videoFile";
+        exec($sizeCommand, $sizeOutput);
+        $sizeParts = explode('x', $sizeOutput[0]);
+        $width = $sizeParts[0];
+        $height = $sizeParts[1];
+        return [
+            "duration"=>$duration,
+            "width"=>$width,
+            "height"=>$height
+        ];
     }
 }

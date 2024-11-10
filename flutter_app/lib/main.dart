@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/app/core/service/app_service.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:json_theme_plus/json_theme_plus.dart';
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 import '/app/core/utils/tool/log_util.dart';
 import 'package:get/get.dart';
@@ -50,11 +49,12 @@ void initServices() async {
       statusBarIconBrightness: Brightness.dark, // 状态栏图标颜色
     ));
   }
+  TDTheme.needMultiTheme();
 
   ///这里是你放get_storage、hive、shared_pref初始化的地方。
   ///或者moor连接，或者其他什么异步的东西。
   await appSetupInit();
   await Get.putAsync(() => AppService().init());
   print('All services started...');
-  AppService.to.getUserInfo();
+  AppService.to.initData();
 }

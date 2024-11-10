@@ -5,7 +5,6 @@ import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/routes/app_pages.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../../../core/components/color_status_bar/color_status_bar.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -17,7 +16,7 @@ class HomeView extends GetView<HomeController> {
       bottomNavigationBar: Obx(
         () => BottomAppBar(
           notchMargin: 0,
-          padding: EdgeInsets.symmetric(vertical: 1.rpx),
+          padding: EdgeInsets.symmetric(vertical: 0.rpx),
           height: 100.rpx,
           shape: const CircularNotchedRectangle(),
           child: Row(

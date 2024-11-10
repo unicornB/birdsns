@@ -3,6 +3,7 @@
 namespace app\common\controller;
 
 use app\common\library\Auth;
+use app\common\model\Attachment;
 use think\Config;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
@@ -326,5 +327,9 @@ class Api
 
         //刷新Token
         $this->request->token();
+    }
+
+    protected function setFileForever($file_url){
+        Attachment::where("url",$file_url)->update(['forever'=>1]);
     }
 }

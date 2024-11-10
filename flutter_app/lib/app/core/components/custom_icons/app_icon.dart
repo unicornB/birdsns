@@ -30,4 +30,13 @@ class AppIcon {
   static const IconData favorites = IconData(0xe645, fontFamily: _kFontFam);
   static const IconData good = IconData(0xe612, fontFamily: _kFontFam);
   static const IconData up = IconData(0xe6dc, fontFamily: _kFontFam);
+  static const IconData camera = IconData(0xe6aa, fontFamily: _kFontFam);
+  static const IconData play = IconData(0xe61c, fontFamily: _kFontFam);
+  static const IconData microphone = IconData(0xe655, fontFamily: _kFontFam);
+  static const IconData microphoneStop =
+      IconData(0xe639, fontFamily: _kFontFam);
+  static const IconData feedComment = IconData(0xe671, fontFamily: _kFontFam);
+  static const IconData feedZan = IconData(0xe8ad, fontFamily: _kFontFam);
+  static const IconData feedCollect = IconData(0xe616, fontFamily: _kFontFam);
+  static const IconData feedForward = IconData(0xea26, fontFamily: _kFontFam);
 }

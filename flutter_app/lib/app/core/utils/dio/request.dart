@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import '../../utils/tool/cookie_util.dart';
+
 import '../../../config/app_config.dart';
 import 'interceptors/header_interceptor.dart';
 import 'interceptors/log_interceptor.dart';
@@ -131,5 +130,23 @@ class Request {
       data: data,
       queryParameters: queryParameters,
     );
+  }
+
+  static Future<T> upload<T>(
+    String url, {
+    required FormData formData,
+    Options? options,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      return Request.dioClient
+          .postUri(
+            Uri.parse(url),
+            data: formData,
+          )
+          .then((data) => jsonDecode(data.data as String) as T);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

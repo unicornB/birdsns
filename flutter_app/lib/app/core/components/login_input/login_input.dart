@@ -39,11 +39,13 @@ class LoginInput extends StatelessWidget {
         color: Color(0xffF2F2F2),
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      leftIcon: Icon(
-        leftIcon,
-        color: const Color(0xff666666),
-        size: 40.rpx,
-      ),
+      leftIcon: leftIcon != null
+          ? Icon(
+              leftIcon,
+              color: const Color(0xff666666),
+              size: 40.rpx,
+            )
+          : null,
       backgroundColor: const Color(0xffF2F2F2),
       contentPadding: EdgeInsets.symmetric(
         horizontal: 10.rpx,

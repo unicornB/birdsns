@@ -1,6 +1,9 @@
 part of 'index_theme.dart';
 
 final ThemeData themeBbsLight = ThemeData(
+  extensions: [
+    TDThemeData.fromJson('custom', TDCustomTheme.customThemeConfig)!
+  ],
   brightness: Brightness.light,
   primaryColor: Colors.white,
   scaffoldBackgroundColor: const Color(0xffE5E5E5),

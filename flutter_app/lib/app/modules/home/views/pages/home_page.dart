@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/core/components/color_status_bar/color_status_bar.dart';
+
 import 'package:flutter_app/app/core/components/custom_icons/app_icon.dart';
 import 'package:flutter_app/app/core/constants/colors/app_color.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_app/app/modules/home/views/pages/rec_page.dart';
 import 'package:flutter_app/app/modules/home/views/pages/video_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../../core/components/color_status_bar/corlor_status_bar_with_bottom.dart';
 import '../../../../core/components/custom_arcIndicator/custom_arcIndicator.dart';
 import '../../controllers/home_page_controller.dart';
 import 'hot_page.dart';

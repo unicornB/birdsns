@@ -10,6 +10,7 @@ use FilesystemIterator;
 use think\Config;
 use think\File;
 use think\Hook;
+use think\Log;
 
 /**
  * 文件上传类
@@ -102,7 +103,11 @@ class Upload
     protected function checkMimetype()
     {
         $mimetypeArr = explode(',', strtolower($this->config['mimetype']));
+
         $typeArr = explode('/', $this->fileInfo['type']);
+        if($typeArr[0]=='audio'){
+            return true;
+        }
         //Mimetype值不正确
         if (stripos($this->fileInfo['type'], '/') === false) {
             throw new UploadException(__('Uploaded file format is limited'));
@@ -362,7 +367,7 @@ class Upload
         $this->checkSize();
         $this->checkExecutable();
         $this->checkMimetype();
-        $this->checkImage();
+//        $this->checkImage();
 
         $savekey = $savekey ? $savekey : $this->getSavekey();
         $savekey = '/' . ltrim($savekey, '/');
@@ -417,12 +422,42 @@ class Upload
             'extparam'    => '',
             'forever'    =>$forever
         );
+        if($this->fileInfo['suffix']=="mp4"){
+            //获取视频信息
+            $info=get_video_info($destDir.$fileName);
+            Log::record("视频视频信息：".json_encode($info),'info');
+            if($info['duration']!=null){
+                $params['duration']=intval($info['duration']);
+            }
+            if($info['width']!=null){
+                $params['media_width']=intval($info['width']);
+            }
+            if($info['height']!=null){
+                $params['media_height']=intval($info['height']);
+            }
+        }
+        if($this->fileInfo['suffix']=="aac"){
+            //acc转mp3
+            $inFile=$destDir.$fileName;
+            $outFile=str_replace(".aac",".mp3",$inFile);
+            acc2mp3($inFile,$outFile);
+            unlink($inFile);
+        }
         try{
-            //wfs上传
-            $wfsUploadUrl=Config::get("upload.wfsurl")."/append".$uploadDir . $file->getSaveName();
-            wfs_upload($wfsUploadUrl,$destDir.$fileName);
-            $params['storage']='wfs';
-            //删除文件
+            if($this->fileInfo['suffix']=="aac"){
+                //wfs上传
+                $wfsFileName=str_replace(".aac",".mp3",$uploadDir . $file->getSaveName());
+                $params["url"]=$wfsFileName;
+                $wfsUploadUrl=Config::get("upload.wfsurl")."/append".$wfsFileName;
+                $filePath=str_replace(".aac",".mp3",$destDir.$fileName);
+                wfs_upload($wfsUploadUrl,$filePath);
+                $params['storage']='wfs';
+            }else{
+                //wfs上传
+                $wfsUploadUrl=Config::get("upload.wfsurl")."/append".$uploadDir . $file->getSaveName();
+                wfs_upload($wfsUploadUrl,$destDir.$fileName);
+                $params['storage']='wfs';
+            }
         }catch(\Exception $exception){
             \think\Log::record("上传错误:".$exception->getMessage(),"info");
         }

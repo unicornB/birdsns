@@ -38,6 +38,9 @@ final ThemeData themeBbsLight = ThemeData(
     elevation: 0,
     backgroundColor: Colors.white,
   ),
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: AppColor.primaryColor,
+  ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       color: Color(0x8a000000),

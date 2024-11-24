@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/core/extensions/string_extension.dart';
+import 'package:path/path.dart';
 
 import '../../constants/colors/app_color.dart';
+import '../../constants/themes/app_styles.dart';
 import '../../models/feed.m.dart';
+import '../../theme/color_palettes.dart';
 import '../custom_icons/app_icon.dart';
 import 'foot.dart';
 import 'head.dart';
@@ -16,13 +19,17 @@ class AudioItem extends StatelessWidget {
       this.onCommentTap,
       this.onGoodTap,
       this.onCollectTap,
-      this.onForwardTap});
+      this.onForwardTap,
+      this.onUserTap,
+      this.onMoreTap});
   final Feed feed;
   final Function(int id)? onTap;
   final Function(int id)? onCommentTap;
   final Function(int id)? onGoodTap;
   final Function(int id)? onCollectTap;
   final Function(int id)? onForwardTap;
+  final Function(int userId)? onUserTap;
+  final Function(int id)? onMoreTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,19 +39,29 @@ class AudioItem extends StatelessWidget {
         }
       },
       child: Container(
-        color: Colors.white,
+        color: ColorPalettes.instance.background,
         margin: EdgeInsets.only(top: 10.rpx),
         padding: EdgeInsets.all(20.rpx),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FeedHead(feed: feed),
+            FeedHead(
+              feed: feed,
+              onUserTap: onUserTap,
+              onMoreTap: onMoreTap,
+            ),
             SizedBox(height: 20.rpx),
             Container(
               padding: EdgeInsets.only(left: 90.rpx),
-              child: Text(feed.content!),
+              child: Text(
+                feed.content!,
+                style: TextStyle(
+                  fontSize: 28.rpx,
+                  color: ColorPalettes.instance.firstText,
+                ),
+              ),
             ),
-            SizedBox(height: 10.rpx),
+            SizedBox(height: 20.rpx),
             Container(
               padding: EdgeInsets.only(left: 90.rpx),
               child: feed.fileUrl!.toAudioPlayer(),
@@ -57,7 +74,7 @@ class AudioItem extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: 20.rpx, vertical: 7.rpx),
                 decoration: BoxDecoration(
-                  color: AppColor.primaryColor.withAlpha(820),
+                  color: ColorPalettes.instance.primary.withAlpha(820),
                   borderRadius: BorderRadius.circular(30.rpx),
                 ),
                 child: Row(
@@ -66,7 +83,7 @@ class AudioItem extends StatelessWidget {
                   children: [
                     Icon(
                       AppIcon.topic,
-                      color: AppColor.primaryColor,
+                      color: ColorPalettes.instance.primary,
                       size: 40.rpx,
                     ),
                     SizedBox(width: 6.rpx),
@@ -74,7 +91,7 @@ class AudioItem extends StatelessWidget {
                       feed.title!,
                       style: TextStyle(
                         fontSize: 26.rpx,
-                        color: AppColor.title,
+                        color: ColorPalettes.instance.firstText,
                         fontWeight: FontWeight.bold,
                       ),
                     )

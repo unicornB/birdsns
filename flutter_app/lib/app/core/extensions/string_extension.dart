@@ -122,4 +122,25 @@ extension StringExtension on String {
       ),
     );
   }
+
+  VoiceMessageView toLocalAudioPlayer() {
+    return VoiceMessageView(
+      controller: VoiceController(
+        maxDuration: const Duration(seconds: 10),
+        isFile: true,
+        audioSrc: this,
+        onComplete: () {},
+        onPause: () {},
+        onPlaying: () {},
+        onError: (err) {},
+      ),
+      backgroundColor: AppColor.primaryColor,
+      counterTextStyle: const TextStyle(
+          color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500),
+      innerPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      cornerRadius: 20,
+      activeSliderColor: Colors.white,
+      size: 36,
+    );
+  }
 }

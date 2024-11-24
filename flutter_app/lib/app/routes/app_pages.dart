@@ -1,3 +1,6 @@
+import 'package:flutter_app/app/modules/posts/views/comment_view.dart';
+import 'package:flutter_app/app/modules/profile/bindings/profile_binding.dart';
+import 'package:flutter_app/app/modules/profile/views/profile_view.dart';
 import 'package:get/get.dart';
 
 import '../core/middleware/auth_middleware.dart';
@@ -18,6 +21,8 @@ import '../modules/publish/bindings/publish_binding.dart';
 import '../modules/publish/views/publish_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/start/bindings/start_binding.dart';
+import '../modules/start/views/start_view.dart';
 import '../modules/web/bindings/web_binding.dart';
 import '../modules/web/views/web_view.dart';
 
@@ -26,13 +31,14 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.START;
 
   static final routes = [
     GetPage(
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: _Paths.PUBLISH,
@@ -101,6 +107,24 @@ class AppPages {
       name: _Paths.POSTS,
       page: () => const PostsView(),
       binding: PostsBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.START,
+      page: () => const StartView(),
+      binding: StartBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMMENT,
+      page: () => const CommentView(),
+      binding: StartBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+      transition: Transition.rightToLeft,
     ),
   ];
 }

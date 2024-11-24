@@ -3,6 +3,7 @@ import 'package:flutter_app/app/core/constants/colors/app_color.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/core/extensions/string_extension.dart';
 import 'package:flutter_app/app/core/models/circle.m.dart';
+import 'package:flutter_app/app/core/theme/color_palettes.dart';
 import '../../controllers/circle_page_controller.dart';
 import 'package:flutter_app/app/routes/app_pages.dart';
 
@@ -14,7 +15,7 @@ class CirclePage extends GetView<CirclePageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff0f0f0),
+      backgroundColor: ColorPalettes.instance.background,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -44,7 +45,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _myCircleTitle() {
     return Container(
-      color: Colors.white,
+      color: ColorPalettes.instance.background,
       padding: EdgeInsets.only(top: 20.rpx, left: 20.rpx, right: 20.rpx),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,13 +55,14 @@ class CirclePage extends GetView<CirclePageController> {
             style: TextStyle(
               fontSize: 28.rpx,
               fontWeight: FontWeight.bold,
+              color: ColorPalettes.instance.firstText,
             ),
           ),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.add,
-                color: AppColor.primaryColor,
+                color: ColorPalettes.instance.primary,
               ),
               GestureDetector(
                 onTap: () {
@@ -69,7 +71,7 @@ class CirclePage extends GetView<CirclePageController> {
                 child: Text(
                   "创建圈子",
                   style: TextStyle(
-                    color: AppColor.primaryColor,
+                    color: ColorPalettes.instance.primary,
                     fontSize: 28.rpx,
                   ),
                 ),
@@ -84,7 +86,7 @@ class CirclePage extends GetView<CirclePageController> {
   Widget _myCircle() {
     return Container(
       width: Get.width,
-      color: Colors.white,
+      color: ColorPalettes.instance.background,
       padding: EdgeInsets.only(left: 20.rpx, right: 20.rpx, bottom: 20.rpx),
       child: Obx(() => Wrap(
             children: controller.mylist.value.map((circle) {
@@ -117,6 +119,7 @@ class CirclePage extends GetView<CirclePageController> {
                 style: TextStyle(
                   fontSize: 26.rpx,
                   fontWeight: FontWeight.w500,
+                  color: ColorPalettes.instance.firstText,
                 ),
               ),
             ),
@@ -129,7 +132,7 @@ class CirclePage extends GetView<CirclePageController> {
   Widget _myHistoryTitle(String title, String subtitle,
       {void Function()? onTap}) {
     return Container(
-      color: Colors.white,
+      color: ColorPalettes.instance.background,
       padding: EdgeInsets.only(top: 20.rpx, left: 20.rpx, right: 20.rpx),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,6 +142,7 @@ class CirclePage extends GetView<CirclePageController> {
             style: TextStyle(
               fontSize: 28.rpx,
               fontWeight: FontWeight.bold,
+              color: ColorPalettes.instance.firstText,
             ),
           ),
           GestureDetector(
@@ -147,11 +151,14 @@ class CirclePage extends GetView<CirclePageController> {
               children: [
                 Text(
                   subtitle,
-                  style: TextStyle(color: AppColor.subTitle, fontSize: 24.rpx),
+                  style: TextStyle(
+                      color: ColorPalettes.instance.secondText,
+                      fontSize: 24.rpx),
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 20.rpx,
+                  color: ColorPalettes.instance.secondText,
                 )
               ],
             ),
@@ -163,7 +170,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _myHistory() {
     return Container(
-      color: Colors.white,
+      color: ColorPalettes.instance.background,
       width: double.infinity,
       padding: EdgeInsets.only(
           left: 20.rpx, right: 20.rpx, bottom: 20.rpx, top: 20.rpx),
@@ -195,7 +202,10 @@ class CirclePage extends GetView<CirclePageController> {
           ),
           Text(
             "历史记录",
-            style: TextStyle(fontSize: 24.rpx, color: const Color(0xff333333)),
+            style: TextStyle(
+              fontSize: 24.rpx,
+              color: ColorPalettes.instance.secondText,
+            ),
           )
         ],
       ),
@@ -204,6 +214,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _hostCircleList() {
     return Container(
+      color: ColorPalettes.instance.background,
       child: Obx(
         () => Column(
           children: controller.recList.value.map((circle) {
@@ -216,7 +227,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _hotCircleItem(Circle circle) {
     return Container(
-      color: Colors.white,
+      color: ColorPalettes.instance.background,
       padding: EdgeInsets.only(
           top: 20.rpx, left: 20.rpx, right: 20.rpx, bottom: 20.rpx),
       child: Row(
@@ -238,6 +249,7 @@ class CirclePage extends GetView<CirclePageController> {
                   style: TextStyle(
                     fontSize: 26.rpx,
                     fontWeight: FontWeight.bold,
+                    color: ColorPalettes.instance.firstText,
                   ),
                 ),
                 SizedBox(
@@ -247,7 +259,7 @@ class CirclePage extends GetView<CirclePageController> {
                   "${circle.followNum} 人加入",
                   style: TextStyle(
                     fontSize: 24.rpx,
-                    color: const Color(0xff999999),
+                    color: ColorPalettes.instance.thirdText,
                   ),
                 ),
               ],

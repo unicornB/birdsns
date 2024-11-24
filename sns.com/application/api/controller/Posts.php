@@ -4,7 +4,11 @@ namespace app\api\controller;
 
 use app\common\controller\Api;
 use app\common\model\Attachment;
+use app\common\model\posts\Collect;
+use app\common\model\posts\Like;
 use app\common\model\posts\Polloption;
+use app\common\model\posts\Pollrecord;
+
 use think\Db;
 use think\Exception;
 use app\common\model\posts\Posts as PostsModel;
@@ -12,20 +16,73 @@ use think\Log;
 
 class Posts extends Api
 {
-    protected $noNeedLogin = ['reclist','index'];
+    protected $noNeedLogin = ['reclist','index','detail'];
     protected $noNeedRight = '*';
     //推荐列表
     public function index(){
         $type=$this->request->param("type");
+        $hot=$this->request->param("hot");
+        $nearby=$this->request->param("nearby");
         $model=new PostsModel;
         $model=$model->alias("p");
+        $orders=["p.createtime"=>"desc"];
         if(!empty($type)){
             $model=$model->where("p.type",$type);
         }
+        if(!empty($hot)){
+            $orders['p.view_num']="desc";
+        }
+        if(!empty($nearby)){
+            $region=ip_search($this->request->ip());
+            $ip_city="";
+            if($region!=null){
+                $arr = explode("|", $region);
+                $ip_city=$arr[3];
+            }
+            if($ip_city!=""){
+                $model=$model->where("p.ip_city",$ip_city);
+            }
+        }
+        $user=$this->auth->getUser();
         $list=$model->field("p.*,u.nickname,u.avatar,c.title")
         ->join("user u","u.id=p.user_id")
         ->join("circle c","c.id=p.circle_id")
-        ->order("p.createtime desc")->paginate();
+        ->order($orders)->paginate()->each(function ($item)use($user){
+            if($item->type=='poll'){
+                $item->poll=Polloption::where('posts_id',$item->id)->select();
+                if($this->auth->isLogin()){
+                    //判断是投票
+                    //$user=$this->auth->getUser();
+                    $record=Pollrecord::where("posts_id",$item->id)->where("user_id",$user->id)->find();
+                    if($record){
+                        $item->polled=$record->id;
+                    }else{
+                        $item->polled=0;
+                    }
+                }else{
+                    $item->polled=0;
+                }
+            }
+            if($this->auth->isLogin()){
+                $like=Like::where("posts_id",$item->id)->where("user_id",$user->id)->find();
+                if($like){
+                    $item->liked=true;
+                }else{
+                    $item->liked=false;
+                }
+                $collect=Collect::where("posts_id",$item->id)->where("user_id",$user->id)->find();
+                if($collect){
+                    $item->collected=true;
+                }else{
+                    $item->collected=false;
+                }
+            }else{
+                $item->liked=false;
+                $item->collected=false;
+            }
+
+            return $item;
+        });
         $this->success("",$list);
     }
 
@@ -51,6 +108,9 @@ class Posts extends Api
         if($type=='text'&&empty($content)){
             $this->error("请上传内容");
         }
+        if(mb_strlen($content,"UTF-8")>200){
+            $this->error("不能超过200个字符");
+        }
         if($type=='image'&&empty($images)){
             $this->error("请上传图片");
         }
@@ -63,12 +123,6 @@ class Posts extends Api
         if($type=='poll'&&empty($poll_data)){
             $this->error("请上传投票数据");
         }
-        $region=ip_search($this->request->ip());
-        $ip_city="";
-        if($region!=null){
-            $arr = explode("|", $region);
-            $ip_city=$arr[3];
-        }
         $data=[
             'user_id'=>$user->id,
             'circle_id'=>$circle_id,
@@ -77,8 +131,14 @@ class Posts extends Api
             'status'=>0,
             'createtime'=>time(),
             'updatetime'=>time(),
-            'ip_city'=>$ip_city
         ];
+        $region=ip_search($this->request->ip());
+        if($region!=null){
+            $arr = explode("|", $region);
+            $data['ip_city']=$arr[3];
+            $data['country']=$arr[0];
+            $data['province']=$arr[2];
+        }
         if($type=='image'){
             $data['images']=$images;
         }
@@ -113,8 +173,7 @@ class Posts extends Api
                 }
             }
             if($type=='poll'){
-                $poll_options=json_decode($poll_data);
-                Log::record("poll_options1：".json_encode($poll_options,JSON_UNESCAPED_UNICODE));
+                $poll_options=json_decode(html_entity_decode($poll_data),true);
                 foreach ($poll_options as $option){
                     $optionData=[
                         'title'=>$option['title'],
@@ -124,12 +183,149 @@ class Posts extends Api
                     Polloption::create($optionData);
                 }
             }
+            //更新圈子下的帖子数
+            $circle=\app\common\model\circle\Circle::get($circle_id);
+            if($circle){
+                $circle->post_num=$circle->post_num+1;
+                $circle->save();
+            }
             Db::commit();
             $this->success("发布成功");
         }catch (Exception $e){
             Db::rollback();
             Log::record("帖子发布错误：".$e->getMessage());
             $this->error("发布失败");
+        }
+    }
+
+    public function poll(){
+        $option_id=$this->request->post("option_id");
+        $option=Polloption::get($option_id);
+        if(!$option){
+            $this->error("选项不存在");
+        }
+        //判断是否投过
+        $user=$this->auth->getUser();
+        $record=Pollrecord::where("posts_id",$option['posts_id'])->where("user_id",$user->id)->find();
+        if($record){
+            $this->error("你已经投过票，请不要重复");
+        }
+        Db::startTrans();
+        try{
+            $data=[
+                'option_id'=>$option_id,
+                'user_id'=>$user->id,
+                'posts_id'=>$option['posts_id'],
+                'createtime'=>time()
+            ];
+            Pollrecord::create($data);
+            $option->tickets=$option->tickets+1;
+            $option->save();
+            Db::commit();
+            $this->success("投票成功");
+        }catch (Exception $e){
+            Db::rollback();
+            $this->error("投票失败");
+        }
+    }
+
+    public function detail(){
+        $id=$this->request->param("id");
+        $detail=PostsModel::get($id);
+        if($detail){
+            $user=\app\common\model\User::get($detail->user_id);
+            $detail['nickname']=$user->nickname;
+            $detail['avatar']=$user->avatar;
+            $circle=\app\common\model\circle\Circle::get($detail->circle_id);
+            $detail['title']=$circle->title;
+            if($detail->type=='poll'){
+                $detail->poll=Polloption::where('posts_id',$detail->id)->select();
+                if($this->auth->isLogin()){
+                    //判断是投票
+                    //$user=$this->auth->getUser();
+                    $record=Pollrecord::where("posts_id",$detail->id)->where("user_id",$user->id)->find();
+                    if($record){
+                        $detail->polled=$record->id;
+                    }else{
+                        $detail->polled=0;
+                    }
+                }else{
+                    $detail->polled=0;
+                }
+            }
+            if($this->auth->isLogin()){
+                $like=Like::where("posts_id",$detail->id)->where("user_id",$user->id)->find();
+                if($like){
+                    $detail->liked=true;
+                }else{
+                    $detail->liked=false;
+                }
+                $collect=Collect::where("posts_id",$detail->id)->where("user_id",$user->id)->find();
+                if($collect){
+                    $detail->collected=true;
+                }else{
+                    $detail->collected=false;
+                }
+            }else{
+                $detail->liked=false;
+                $detail->collected=false;
+            }
+            $this->success("",$detail);
+        }
+        $this->error("");
+    }
+    //点赞
+    public function like(){
+        $id=$this->request->param("id");
+        $user=$this->auth->getUser();
+        $checklike=Like::where("posts_id",$id)->where("user_id",$user->id)->find();
+        if($checklike){
+            $checklike->delete();
+            //更新点赞数
+            $num=update_posts_like_num($id,2);
+            $this->success("取消点赞",["num"=>$num,"type"=>"cancel"]);
+        }else{
+            $detail=PostsModel::get($id);
+            if($detail){
+                $data=["posts_id"=>$id,"user_id"=>$user->id,"fa_user_id"=>$detail['user_id'],"createtime"=>time()];
+                Like::create($data);
+                //更新点赞数
+                $num=update_posts_like_num($id,1);
+                //发送通知
+                if($user->id!=$detail->user_id){
+                    $json=$user->nickname."点赞了你的帖子";
+                    send_notification($user->id,$detail->user_id,"posts_like",$id,$json);
+                }
+                $this->success("点赞成功",["num"=>$num,"type"=>"add"]);
+            }else{
+                $this->success("点赞失败");
+            }
+        }
+    }
+    public function collect(){
+        $id=$this->request->param("id");
+        $user=$this->auth->getUser();
+        $checkCollect=Collect::where("posts_id",$id)->where("user_id",$user->id)->find();
+        if($checkCollect){
+            $checkCollect->delete();
+            //更新点赞数
+            $posts=\app\common\model\posts\Posts::get($id);
+            $posts->collect_num=$posts->collect_num-1;
+            $posts->save();
+            $this->success("取消收藏",["num"=>$posts->collect_num,"type"=>"cancel"]);
+        }else{
+            $detail=PostsModel::get($id);
+            if($detail){
+                $data=["posts_id"=>$id,"user_id"=>$user->id,"fa_user_id"=>$detail['user_id'],"createtime"=>time()];
+                Collect::create($data);
+                //更新点赞数
+                $posts=\app\common\model\posts\Posts::get($id);
+                $posts->collect_num=$posts->collect_num+1;
+                $posts->save();
+                $this->success("收藏成功",["num"=>$posts->collect_num,"type"=>"add"]);
+            }else{
+                $this->success("收藏失败");
+            }
         }
     }
 }

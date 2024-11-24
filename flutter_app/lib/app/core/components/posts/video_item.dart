@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app/core/components/play_button/play_button.dart';
 import 'package:flutter_app/app/core/components/posts/head.dart';
+
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/core/extensions/string_extension.dart';
 import 'package:flutter_app/app/core/models/feed.m.dart';
 
-import '../../constants/colors/app_color.dart';
 import '../../entity/source_entity.dart';
+import '../../theme/color_palettes.dart';
 import '../../utils/tool/app_util.dart';
 import '../custom_icons/app_icon.dart';
 import 'foot.dart';
@@ -19,6 +21,8 @@ class VideoItem extends StatefulWidget {
     this.onGoodTap,
     this.onCollectTap,
     this.onForwardTap,
+    this.onUserTap,
+    this.onMoreTap,
   });
   final Feed feed;
   final Function(int id)? onTap;
@@ -26,6 +30,8 @@ class VideoItem extends StatefulWidget {
   final Function(int id)? onGoodTap;
   final Function(int id)? onCollectTap;
   final Function(int id)? onForwardTap;
+  final Function(int userId)? onUserTap;
+  final Function(int id)? onMoreTap;
   @override
   State<VideoItem> createState() => _VideoItemState();
 }
@@ -48,18 +54,28 @@ class _VideoItemState extends State<VideoItem> {
         width: 750.rpx,
         padding: EdgeInsets.all(20.rpx),
         margin: EdgeInsets.only(top: 10.rpx),
-        color: Colors.white,
+        color: ColorPalettes.instance.background,
         alignment: Alignment.centerLeft,
         child: Container(
           alignment: Alignment.centerLeft,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FeedHead(feed: widget.feed),
+              FeedHead(
+                feed: widget.feed,
+                onUserTap: widget.onUserTap,
+                onMoreTap: widget.onMoreTap,
+              ),
               SizedBox(height: 20.rpx),
               Container(
                 padding: EdgeInsets.only(left: 90.rpx),
-                child: Text(widget.feed.content!),
+                child: Text(
+                  widget.feed.content!,
+                  style: TextStyle(
+                    fontSize: 28.rpx,
+                    color: ColorPalettes.instance.firstText,
+                  ),
+                ),
               ),
               SizedBox(height: 10.rpx),
               GestureDetector(
@@ -74,6 +90,12 @@ class _VideoItemState extends State<VideoItem> {
                   width: widget.feed.mediaWidth! > widget.feed.mediaHeight!
                       ? 690.rpx
                       : 490.rpx,
+                  height: widget.feed.mediaWidth! > widget.feed.mediaHeight!
+                      ? 690.rpx *
+                          widget.feed.mediaHeight! /
+                          widget.feed.mediaWidth! *
+                          0.75
+                      : 550.rpx,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -84,13 +106,9 @@ class _VideoItemState extends State<VideoItem> {
                                 : 490.rpx,
                         radius: 10.rpx,
                       ),
-                      Align(
+                      const Align(
                         alignment: Alignment.center,
-                        child: Icon(
-                          AppIcon.play,
-                          size: 80.rpx,
-                          color: Colors.white,
-                        ),
+                        child: PlayButton(),
                       )
                     ],
                   ),
@@ -104,7 +122,7 @@ class _VideoItemState extends State<VideoItem> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.rpx, vertical: 7.rpx),
                   decoration: BoxDecoration(
-                    color: AppColor.primaryColor.withAlpha(820),
+                    color: ColorPalettes.instance.primary.withAlpha(820),
                     borderRadius: BorderRadius.circular(30.rpx),
                   ),
                   child: Row(
@@ -113,7 +131,7 @@ class _VideoItemState extends State<VideoItem> {
                     children: [
                       Icon(
                         AppIcon.topic,
-                        color: AppColor.primaryColor,
+                        color: ColorPalettes.instance.primary,
                         size: 40.rpx,
                       ),
                       SizedBox(width: 6.rpx),
@@ -121,7 +139,7 @@ class _VideoItemState extends State<VideoItem> {
                         widget.feed.title!,
                         style: TextStyle(
                           fontSize: 26.rpx,
-                          color: AppColor.title,
+                          color: ColorPalettes.instance.firstText,
                           fontWeight: FontWeight.bold,
                         ),
                       )

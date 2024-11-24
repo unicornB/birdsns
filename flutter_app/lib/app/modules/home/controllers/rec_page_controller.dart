@@ -1,11 +1,17 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app/core/api/notification_api.dart';
 import 'package:flutter_app/app/core/api/posts_api.dart';
 import 'package:flutter_app/app/core/models/banner.m.dart' as model;
 import 'package:flutter_app/app/core/models/feed.m.dart';
 import 'package:flutter_app/app/core/models/menu.m.dart';
+import 'package:flutter_app/app/core/service/app_service.dart';
+import 'package:flutter_app/app/core/utils/tool/event_util.dart';
 import 'package:get/get.dart';
+
+import '../../../core/events/events.dart';
 
 class RecPageController extends GetxController {
   final count = 0.obs;
@@ -17,6 +23,8 @@ class RecPageController extends GetxController {
   final hasMore = true.obs;
   final loading = false.obs;
   final ScrollController scrollController = ScrollController();
+  late final AppLifecycleListener lifecycleListener;
+  late Timer timer;
   @override
   void onInit() {
     super.onInit();
@@ -26,6 +34,7 @@ class RecPageController extends GetxController {
   void onReady() {
     super.onReady();
     getData();
+    getCount();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -33,13 +42,36 @@ class RecPageController extends GetxController {
         loadMore();
       }
     });
+    log("生命周期");
+    timer = Timer.periodic(const Duration(seconds: 60), timerCallback);
+    lifecycleListener = AppLifecycleListener(
+      onStateChange: (value) {
+        log("生命周期$value");
+      },
+      onResume: () {
+        timer = Timer.periodic(const Duration(seconds: 60), timerCallback);
+      },
+      onPause: () {
+        timer.cancel();
+      },
+    );
   }
 
   @override
   void onClose() {
     super.onClose();
+    lifecycleListener.dispose();
+    timer.cancel();
   }
 
+  void timerCallback(Timer timer) {
+    log("生命定时器");
+    getCount();
+  }
+
+  void getCount() {
+    AppService.to.getNotificationCount();
+  }
   // getData() async {
   //   //refreshController.requestRefresh();
   //   var res = await IndexApi.homeData();
@@ -92,5 +124,31 @@ class RecPageController extends GetxController {
 
   Future<void> loadMore() async {
     getData();
+  }
+
+  Future<void> onLike(int id, int index) async {
+    var res = await PostsApi.postLike(id);
+    if (res['code'] == 1) {
+      feedsList.value[index].likeNum = res['data']['num'];
+      if (res['data']['type'] == "add") {
+        feedsList.value[index].liked = true;
+      } else {
+        feedsList.value[index].liked = false;
+      }
+      feedsList.refresh();
+    }
+  }
+
+  Future<void> onCollect(int id, int index) async {
+    var res = await PostsApi.postCollect(id);
+    if (res['code'] == 1) {
+      feedsList.value[index].collectNum = res['data']['num'];
+      if (res['data']['type'] == "add") {
+        feedsList.value[index].collected = true;
+      } else {
+        feedsList.value[index].collected = false;
+      }
+      feedsList.refresh();
+    }
   }
 }

@@ -53,6 +53,7 @@ class PublishController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    recorderModule.closeRecorder();
   }
 
   void increment() => count.value++;
@@ -140,7 +141,7 @@ class PublishController extends GetxController {
     await recorderModule.openRecorder();
     //设置订阅计时器
     await recorderModule
-        .setSubscriptionDuration(const Duration(milliseconds: 60));
+        .setSubscriptionDuration(const Duration(milliseconds: 120));
   }
 
   void handleRecord() {
@@ -202,7 +203,7 @@ class PublishController extends GetxController {
     recorderModule.onProgress!.listen((data) {
       log("录音进度:${data.duration.inSeconds}s");
       recordTime.value = data.duration.inSeconds;
-      if (recordTime.value >= 60) {
+      if (recordTime.value >= 120) {
         _stopRecorder();
       }
     });
@@ -243,6 +244,7 @@ class PublishController extends GetxController {
     }
     if (type.value == "poll") {
       data["poll_data"] = jsonEncode(pollData.value);
+      print("测试${data["poll_data"]}");
     }
     AppUtil.showLoading("发布中...");
     var res = await PostsApi.publish(data);

@@ -5,6 +5,7 @@ import 'package:flutter_app/app/core/constants/colors/app_color.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/core/extensions/string_extension.dart';
 import 'package:flutter_app/app/core/models/feed.m.dart';
+import 'package:flutter_app/app/core/theme/color_palettes.dart';
 
 import '../../entity/source_entity.dart';
 import '../../utils/tool/app_util.dart';
@@ -19,6 +20,8 @@ class ImageItem extends StatelessWidget {
     this.onGoodTap,
     this.onCollectTap,
     this.onForwardTap,
+    this.onUserTap,
+    this.onMoreTap,
   });
   final Feed feed;
   final Function(int id)? onTap;
@@ -26,6 +29,8 @@ class ImageItem extends StatelessWidget {
   final Function(int id)? onGoodTap;
   final Function(int id)? onCollectTap;
   final Function(int id)? onForwardTap;
+  final Function(int userId)? onUserTap;
+  final Function(int id)? onMoreTap;
   String getLeftFileCorpUrl(String imageUrl) {
     return "$imageUrl?mode/0/w/350/h/750";
   }
@@ -65,18 +70,25 @@ class ImageItem extends StatelessWidget {
         width: 750.rpx,
         padding: EdgeInsets.all(20.rpx),
         margin: EdgeInsets.only(top: 10.rpx),
-        color: Colors.white,
+        color: ColorPalettes.instance.background,
         alignment: Alignment.centerLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FeedHead(feed: feed),
+            FeedHead(
+              feed: feed,
+              onUserTap: onUserTap,
+              onMoreTap: onMoreTap,
+            ),
             SizedBox(height: 20.rpx),
             Container(
               padding: EdgeInsets.only(left: 90.rpx),
               child: Text(
                 feed.content!,
-                style: TextStyle(fontSize: 28.rpx, color: AppColor.title),
+                style: TextStyle(
+                  fontSize: 28.rpx,
+                  color: ColorPalettes.instance.firstText,
+                ),
               ),
             ),
             SizedBox(height: 10.rpx),
@@ -91,7 +103,7 @@ class ImageItem extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: 20.rpx, vertical: 7.rpx),
                 decoration: BoxDecoration(
-                  color: AppColor.primaryColor.withAlpha(820),
+                  color: ColorPalettes.instance.primary.withAlpha(820),
                   borderRadius: BorderRadius.circular(30.rpx),
                 ),
                 child: Row(
@@ -100,7 +112,7 @@ class ImageItem extends StatelessWidget {
                   children: [
                     Icon(
                       AppIcon.topic,
-                      color: AppColor.primaryColor,
+                      color: ColorPalettes.instance.primary,
                       size: 40.rpx,
                     ),
                     SizedBox(width: 6.rpx),
@@ -108,7 +120,7 @@ class ImageItem extends StatelessWidget {
                       feed.title!,
                       style: TextStyle(
                         fontSize: 26.rpx,
-                        color: AppColor.title,
+                        color: ColorPalettes.instance.firstText,
                         fontWeight: FontWeight.bold,
                       ),
                     )

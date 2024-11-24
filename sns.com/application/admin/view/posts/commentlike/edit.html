@@ -1,0 +1,33 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Posts_comment_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-posts_comment_id" data-rule="required" data-source="posts/comment/index" class="form-control selectpage" name="row[posts_comment_id]" type="text" value="{$row.posts_comment_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_id" data-rule="required" min="0" data-source="user/user/index" data-field="nickname" class="form-control selectpage" name="row[user_id]" type="text" value="{$row.user_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Fa_user_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-fa_user_id" data-rule="required" data-source="fa/user/index" class="form-control selectpage" name="row[fa_user_id]" type="text" value="{$row.fa_user_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Posts_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-posts_id" data-rule="required" data-source="posts/index" class="form-control selectpage" name="row[posts_id]" type="text" value="{$row.posts_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

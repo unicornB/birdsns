@@ -1,3 +1,5 @@
+import 'package:flutter_app/app/core/models/poll.m.dart';
+
 class Feed {
   int? id;
   String? images;
@@ -5,7 +7,7 @@ class Feed {
   int? circleId;
   String? type;
   String? fileUrl;
-  String? pollData;
+  List<Poll>? poll;
   int? likeNum;
   int? comNum;
   int? viewNum;
@@ -24,32 +26,43 @@ class Feed {
   String? ipCity;
   double? mediaWidth;
   double? mediaHeight;
-  Feed(
-      {this.id,
-      this.images,
-      this.userId,
-      this.circleId,
-      this.type,
-      this.fileUrl,
-      this.pollData,
-      this.likeNum,
-      this.comNum,
-      this.viewNum,
-      this.recswitch,
-      this.topswitch,
-      this.status,
-      this.content,
-      this.updatetime,
-      this.createtime,
-      this.deletetime,
-      this.nickname,
-      this.avatar,
-      this.title,
-      this.typeText,
-      this.statusText,
-      this.ipCity,
-      this.mediaWidth,
-      this.mediaHeight});
+  int? polled;
+  int? polledId;
+  bool? liked;
+  bool? collected;
+  int? collectNum;
+  Feed({
+    this.id,
+    this.images,
+    this.userId,
+    this.circleId,
+    this.type,
+    this.fileUrl,
+    this.poll,
+    this.likeNum,
+    this.comNum,
+    this.viewNum,
+    this.recswitch,
+    this.topswitch,
+    this.status,
+    this.content,
+    this.updatetime,
+    this.createtime,
+    this.deletetime,
+    this.nickname,
+    this.avatar,
+    this.title,
+    this.typeText,
+    this.statusText,
+    this.ipCity,
+    this.mediaWidth,
+    this.mediaHeight,
+    this.polled,
+    this.polledId,
+    this.liked,
+    this.collected,
+    this.collectNum,
+  });
 
   Feed.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,7 +71,10 @@ class Feed {
     circleId = json['circle_id'];
     type = json['type'];
     fileUrl = json['file_url'];
-    pollData = json['poll_data'];
+    poll = json['poll'] != null
+        ? List<Poll>.from(
+            json['poll'].map((item) => Poll.fromJson(item)).toList())
+        : null;
     likeNum = json['like_num'];
     comNum = json['com_num'];
     viewNum = json['view_num'];
@@ -81,6 +97,11 @@ class Feed {
     mediaHeight = json['media_height'] != null
         ? double.parse(json['media_height'].toString())
         : 0.0;
+    polled = json['polled'];
+    polledId = json['polled_id'];
+    liked = json['liked'];
+    collected = json['collected'];
+    collectNum = json['collect_num'];
   }
 
   Map<String, dynamic> toJson() {
@@ -91,7 +112,7 @@ class Feed {
     data['circle_id'] = this.circleId;
     data['type'] = this.type;
     data['file_url'] = this.fileUrl;
-    data['poll_data'] = this.pollData;
+    data['poll'] = this.poll;
     data['like_num'] = this.likeNum;
     data['com_num'] = this.comNum;
     data['view_num'] = this.viewNum;
@@ -110,6 +131,11 @@ class Feed {
     data['ip_city'] = this.ipCity;
     data['media_width'] = this.mediaWidth;
     data['media_height'] = this.mediaHeight;
+    data['polled'] = this.polled;
+    data['polled_id'] = this.polledId;
+    data['liked'] = this.liked;
+    data['collected'] = this.collected;
+    data['collect_num'] = this.collectNum;
     return data;
   }
 }

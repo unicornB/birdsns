@@ -14,6 +14,9 @@ abstract class Routes {
   static const CIRCLE = _Paths.CIRCLE;
   static const CIRCLECREATE = _Paths.CIRCLECREATE;
   static const POSTS = _Paths.POSTS;
+  static const START = _Paths.START;
+  static const COMMENT = _Paths.COMMENT;
+  static const PROFILE = _Paths.PROFILE;
 }
 
 abstract class _Paths {
@@ -29,4 +32,7 @@ abstract class _Paths {
   static const CIRCLE = '/circle';
   static const CIRCLECREATE = '/circle_create';
   static const POSTS = '/posts';
+  static const START = '/start';
+  static const COMMENT = '/comment';
+  static const PROFILE = '/profile';
 }

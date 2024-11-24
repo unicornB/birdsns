@@ -16,11 +16,16 @@ php think crud -t posts -c posts/posts -l 0 -u 1 --force=true
 php think crud -t posts_like -c posts/like -l 0 --force=true
 php think crud -t posts_report -c posts/report -l 0 -u 1 --force=true
 php think crud -t posts_comment -c posts/comment -l 0 -u 1 --force=true
-php think crud -t posts_comment_like -c posts/comment_like -l 0 --force=true
+php think crud -t posts_comment_like -c posts/commentlike -l 0 --force=true
 
 投票
 php think crud -t posts_poll_option -c posts/polloption -l 0 --force=true
 php think crud -t posts_poll_record -c posts/pollrecord -l 0 --force=true
+
+php think crud -t posts_collect -c posts/collect -l 0 --force=true
+
+php think crud -t notifications -c notifications -l 0 --force=true
+
 
 ## 主要特性
 

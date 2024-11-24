@@ -52,15 +52,17 @@ class AppUtil {
   }
 
   static void showLoading(String text) {
-    if (text.isEmpty) {
-      TDToast.showLoadingWithoutText(context: Get.context!);
-    } else {
-      TDToast.showLoading(context: Get.context!, text: text);
-    }
+    // if (text.isEmpty) {
+    //   TDToast.showLoadingWithoutText(context: Get.context!);
+    // } else {
+    //   TDToast.showLoading(context: Get.context!, text: text);
+    // }
+    EasyLoading.show(status: text);
   }
 
   static void hideLoading() {
-    TDToast.dismissLoading();
+    // TDToast.dismissLoading();
+    EasyLoading.dismiss();
   }
 
   static void showToast(String text) {

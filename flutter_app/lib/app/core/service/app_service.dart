@@ -12,11 +12,16 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:dio/dio.dart' as mdio;
 
+import '../api/notification_api.dart';
+import '../events/events.dart';
+import '../utils/tool/event_util.dart';
+
 class AppService extends GetxService {
   final isLogined = false.obs; //是否登录
   final loginToken = ''.obs; //token
   final loginUserInfo = UserInfo().obs; //用户信息
   final myfollowCircles = [].obs; //我关注的圈子
+  final notificationCount = 0.obs; //通知数量
   static AppService to = Get.find<AppService>();
   Future<AppService> init() async {
     return this;
@@ -136,5 +141,22 @@ class AppService extends GetxService {
   bool isFollowCircle(int circleId) {
     return myfollowCircles.value
         .any((element) => element['circle_id'] == circleId);
+  }
+
+  void setNotificationCount(int count) {
+    notificationCount.value = count;
+    notificationCount.refresh();
+  }
+
+  void minusNotificationCount() {
+    notificationCount.value = notificationCount.value - 1;
+    notificationCount.refresh();
+  }
+
+  void getNotificationCount() {
+    NotificationApi.getCount().then((res) {
+      EventBusUtil.getInstance().fire(NotifiyEvent(res['data']));
+      setNotificationCount(res['data']);
+    });
   }
 }

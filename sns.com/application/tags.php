@@ -43,6 +43,9 @@ return [
     ],
     'upload_delete'=>[
         'app\\common\\behavior\\Upload'
-    ]
+    ],
+//    'user_register_successed'=>[
+//        'app\\common\\behavior\\User'
+//    ]
 
 ];

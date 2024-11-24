@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../theme/color_palettes.dart';
+
 class ColoredStatusBar extends StatelessWidget {
   const ColoredStatusBar({
     super.key,
@@ -15,14 +17,15 @@ class ColoredStatusBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const defaultColor = Colors.white;
+    var isDarkStyle = ColorPalettes.instance.isDark();
+    var defaultColor = ColorPalettes.instance.pure;
     final androidIconBrightness =
         brightness == Brightness.dark ? Brightness.light : Brightness.dark;
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: color ?? defaultColor,
         statusBarIconBrightness: androidIconBrightness,
-        statusBarBrightness: brightness,
+        statusBarBrightness: isDarkStyle ? Brightness.dark : Brightness.light,
       ),
       child: Container(
         color: color ?? defaultColor,

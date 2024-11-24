@@ -39,4 +39,6 @@ class AppIcon {
   static const IconData feedZan = IconData(0xe8ad, fontFamily: _kFontFam);
   static const IconData feedCollect = IconData(0xe616, fontFamily: _kFontFam);
   static const IconData feedForward = IconData(0xea26, fontFamily: _kFontFam);
+  static const IconData playIcon = IconData(0xe64f, fontFamily: _kFontFam);
+  static const IconData empty = IconData(0xe695, fontFamily: _kFontFam);
 }

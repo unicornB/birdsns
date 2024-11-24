@@ -4,3 +4,8 @@ class PublishSelectCircleEvent {
   final Circle circle;
   PublishSelectCircleEvent(this.circle);
 }
+
+class NotifiyEvent {
+  final int count;
+  NotifiyEvent(this.count);
+}

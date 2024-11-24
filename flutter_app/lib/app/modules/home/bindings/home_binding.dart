@@ -1,6 +1,10 @@
+import 'package:flutter_app/app/modules/home/controllers/hot_page_controller.dart';
 import 'package:flutter_app/app/modules/home/controllers/image_page_controller.dart';
+import 'package:flutter_app/app/modules/home/controllers/messages/notification_controller.dart';
+import 'package:flutter_app/app/modules/home/controllers/nearby_page_controller.dart';
 
 import '../controllers/home_page_controller.dart';
+import '../controllers/mesage_controller.dart';
 import '../controllers/mine_controller.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
@@ -31,6 +35,18 @@ class HomeBinding extends Bindings {
     );
     Get.lazyPut<ImagePageController>(
       () => ImagePageController(),
+    );
+    Get.lazyPut<NearbyPageController>(
+      () => NearbyPageController(),
+    );
+    Get.lazyPut<HotPageController>(
+      () => HotPageController(),
+    );
+    Get.lazyPut<MesageController>(
+      () => MesageController(),
+    );
+    Get.lazyPut<NotificationController>(
+      () => NotificationController(),
     );
   }
 }

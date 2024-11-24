@@ -1,0 +1,61 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Notifier_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-notifier_id" data-rule="required" data-source="notifier/index" class="form-control selectpage" name="row[notifier_id]" type="text" value="{$row.notifier_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Recipient_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-recipient_id" data-rule="required" data-source="recipient/index" class="form-control selectpage" name="row[recipient_id]" type="text" value="{$row.recipient_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            
+            <div class="radio">
+            {foreach name="statusList" item="vo"}
+            <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="$row.status"}checked{/in} /> {$vo}</label> 
+            {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Subject')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-subject" data-rule="required" class="form-control" name="row[subject]" type="text" value="{$row.subject|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Entry_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-entry_id" data-rule="required" data-source="entry/index" class="form-control selectpage" name="row[entry_id]" type="text" value="{$row.entry_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Json')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            
+            <dl class="fieldlist" data-name="row[json]">
+                <dd>
+                    <ins>{:__('Key')}</ins>
+                    <ins>{:__('Value')}</ins>
+                </dd>
+                <dd><a href="javascript:;" class="btn btn-sm btn-success btn-append"><i class="fa fa-plus"></i> {:__('Append')}</a></dd>
+                <textarea name="row[json]" class="form-control hide" cols="30" rows="5">{$row.json|htmlentities}</textarea>
+            </dl>
+
+
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

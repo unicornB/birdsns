@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/modules/home/views/pages/home_page.dart';
 import 'package:flutter_app/app/modules/home/views/pages/message_page.dart';
 import 'package:flutter_app/app/modules/home/views/pages/mine_page.dart';
-import 'package:flutter_app/app/modules/home/views/pages/pub_page.dart';
+
 import 'package:flutter_app/app/modules/home/views/pages/square_page.dart';
-import 'package:flutter_app/app/routes/app_pages.dart';
+
 import 'package:get/get.dart';
 
 import '../../../core/components/custom_icons/app_icon.dart';

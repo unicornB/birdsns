@@ -82,6 +82,12 @@ dependencies:
   just_audio: ^0.9.42
   syncfusion_flutter_sliders: ^27.1.58
   interactiveviewer_gallery_plus: ^0.1.0
+  flutter_hooks: ^0.20.5
+  percent_indicator: ^4.2.3
+  lottie: ^3.1.3
+  flutter_skeleton_ui: ^0.0.6
+  badges: ^3.1.2
+  visibility_detector: ^0.4.0+2
 
 dev_dependencies:
   flutter_test:
@@ -139,6 +145,7 @@ flutter:
     - assets/images/
     - assets/images/bottom/
     - assets/images/svg/
+    - assets/lotties/
     - assets/themes/appainter_theme.json
   fonts:
     - family: IconFont

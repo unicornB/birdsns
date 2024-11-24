@@ -30,6 +30,8 @@ Future<void> main() async {
       theme: themeBbsLight,
       darkTheme: themeBbsDark,
       themeMode: ThemeMode.light,
+      defaultTransition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 150),
       translationsKeys: AppTranslation.translations,
       locale: const Locale('zh', 'CN'),
       fallbackLocale: const Locale('en', 'US'),
@@ -44,10 +46,12 @@ void initServices() async {
   print('starting services ...');
   //判断是安卓还是ios
   if (Platform.isAndroid) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // 状态栏颜色
-      statusBarIconBrightness: Brightness.dark, // 状态栏图标颜色
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, // 状态栏颜色
+        statusBarIconBrightness: Brightness.light, // 状态栏图标颜色
+      ),
+    );
   }
   TDTheme.needMultiTheme();
 

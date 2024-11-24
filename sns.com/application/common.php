@@ -602,3 +602,84 @@ if(!function_exists('get_video_info')){
         ];
     }
 }
+
+if(!function_exists('update_posts_like_num')){
+    //$type=1增加 $type=2减
+    function update_posts_like_num($post_id,$type=1){
+        $posts=\app\common\model\posts\Posts::get($post_id);
+        if($posts){
+            if($type==1){
+                $posts->like_num=$posts->like_num+1;
+                $posts->save();
+                //圈子
+                $circle=\app\common\model\circle\Circle::get($posts->circle_id);
+                if($circle){
+                    $circle->zan_num=$circle->zan_num+1;
+                    $circle->save();
+                }
+                return $posts->like_num;
+            }else{
+                $posts->like_num=$posts->like_num-1;
+                $posts->save();
+                //圈子
+                $circle=\app\common\model\circle\Circle::get($posts->circle_id);
+                if($circle){
+                    $circle->zan_num=$circle->zan_num-1;
+                    $circle->save();
+                }
+                return $posts->like_num;
+            }
+        }
+    }
+}
+if(!function_exists('update_comment_like_num')){
+    //$type=1增加 $type=2减
+    function update_comment_like_num($comment_id,$type=1){
+        $comment=\app\common\model\posts\Comment::get($comment_id);
+        if($comment){
+            if($type==1){
+                $comment->like_num=$comment->like_num+1;
+                $comment->save();
+                return $comment->like_num;
+            }else{
+                $comment->like_num=$comment->like_num-1;
+                $comment->save();
+                return $comment->like_num;
+            }
+        }
+    }
+}
+//发送通知
+if(!function_exists('send_notification')){
+    /**
+     * @param $notifier_id 发送者
+     * @param $recipient_id 接收者
+     * @param $subject 主题
+     * @param $entry_id 实体id
+     * @param $json 额外信息
+     * @return \app\common\model\Notifications
+     */
+    function send_notification($notifier_id,$recipient_id,$subject,$entry_id=0,$json="[]"){
+        $data=[
+            'notifier_id'=>$notifier_id,
+            'recipient_id'=>$recipient_id,
+            'subject'=>$subject,
+            'entry_id'=>$entry_id,
+            'json'=>$json,
+            'createtime'=>time()
+        ];
+        return \app\common\model\Notifications::create($data);
+    }
+}
+if(!function_exists('read_notification')){
+    /**
+     * @param $id
+     */
+    function read_notification($id){
+        $notif=\app\common\model\Notifications::get($id);
+        if($notif){
+            $notif->status="1";
+            $notif->save();
+        }
+    }
+}

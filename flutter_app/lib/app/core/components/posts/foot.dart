@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/core/components/custom_icons/app_icon.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
-
-import '../../constants/colors/app_color.dart';
+import 'package:flutter_app/app/core/theme/color_palettes.dart';
 import '../../models/feed.m.dart';
 
 class FeedFoot extends StatelessWidget {
@@ -33,6 +32,7 @@ class FeedFoot extends StatelessWidget {
             iconItem(
               AppIcon.feedZan,
               text: "${feed.likeNum}",
+              active: feed.liked != null ? feed.liked! : false,
               onTap: () {
                 if (onGoodTap != null) {
                   onGoodTap?.call(feed.id!);
@@ -41,6 +41,7 @@ class FeedFoot extends StatelessWidget {
             ),
             iconItem(
               AppIcon.feedCollect,
+              active: feed.collected != null ? feed.collected! : false,
               onTap: () {
                 if (onCollectTap != null) {
                   onCollectTap?.call(feed.id!);
@@ -61,7 +62,8 @@ class FeedFoot extends StatelessWidget {
     );
   }
 
-  Widget iconItem(IconData icon, {Function()? onTap, String? text}) {
+  Widget iconItem(IconData icon,
+      {Function()? onTap, String? text, bool? active = false}) {
     return GestureDetector(
       onTap: onTap,
       child: Row(
@@ -70,14 +72,20 @@ class FeedFoot extends StatelessWidget {
           Icon(
             icon,
             size: 36.rpx,
-            color: AppColor.title,
+            color: active!
+                ? ColorPalettes.instance.primary
+                : ColorPalettes.instance.secondIcon,
             weight: 100,
           ),
           SizedBox(width: 6.rpx),
           if (text != null)
             Text(
               text,
-              style: TextStyle(color: AppColor.subTitle, fontSize: 28.rpx),
+              style: TextStyle(
+                  color: active
+                      ? ColorPalettes.instance.primary
+                      : ColorPalettes.instance.secondText,
+                  fontSize: 28.rpx),
             ),
         ],
       ),

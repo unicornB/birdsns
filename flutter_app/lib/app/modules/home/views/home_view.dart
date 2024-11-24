@@ -1,11 +1,12 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app/core/constants/colors/app_color.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
+import 'package:flutter_app/app/core/service/app_service.dart';
 import 'package:flutter_app/app/routes/app_pages.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import '../../../core/theme/color_palettes.dart';
 import '../controllers/home_controller.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -19,6 +20,7 @@ class HomeView extends GetView<HomeController> {
           padding: EdgeInsets.symmetric(vertical: 0.rpx),
           height: 100.rpx,
           shape: const CircularNotchedRectangle(),
+          color: ColorPalettes.instance.pure,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -47,11 +49,11 @@ class HomeView extends GetView<HomeController> {
                   Get.toNamed(Routes.PUBLISH);
                 },
                 child: Container(
-                  width: 60,
-                  height: 40,
+                  width: 50,
+                  height: 34,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.rpx),
-                    color: AppColor.primaryColor,
+                    color: ColorPalettes.instance.primary,
                   ),
                   child: const Icon(
                     Icons.add,
@@ -59,15 +61,28 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
-              _bottomNavigationBarItem(
-                icon: "assets/images/bottom/message_line.svg",
-                activeIcon: "assets/images/bottom/message_fill.svg",
-                title: "消息",
-                active: controller.currentIndex.value == 2,
-                onTap: () {
-                  controller.currentIndex.value = 2;
-                  controller.pageController.jumpToPage(2);
-                },
+              Obx(
+                () => badges.Badge(
+                  showBadge: AppService.to.notificationCount.value > 0,
+                  badgeStyle: badges.BadgeStyle(
+                      padding: EdgeInsets.all(
+                    AppService.to.notificationCount.value < 10 ? 10.rpx : 6.rpx,
+                  )),
+                  badgeContent: Text(
+                    '${AppService.to.notificationCount.value}',
+                    style: TextStyle(color: Colors.white, fontSize: 24.rpx),
+                  ),
+                  child: _bottomNavigationBarItem(
+                    icon: "assets/images/bottom/message_line.svg",
+                    activeIcon: "assets/images/bottom/message_fill.svg",
+                    title: "消息",
+                    active: controller.currentIndex.value == 2,
+                    onTap: () {
+                      controller.currentIndex.value = 2;
+                      controller.pageController.jumpToPage(2);
+                    },
+                  ),
+                ),
               ),
               _bottomNavigationBarItem(
                 icon: "assets/images/bottom/user_line.svg",
@@ -120,9 +135,11 @@ class HomeView extends GetView<HomeController> {
   }) {
     final Widget svg = SvgPicture.asset(
       active! ? activeIcon! : icon!,
-      width: 50.rpx,
-      height: 50.rpx,
-      color: active ? Colors.blue : Colors.grey,
+      width: 45.rpx,
+      height: 45.rpx,
+      color: active
+          ? ColorPalettes.instance.primary
+          : ColorPalettes.instance.secondText,
     );
     return GestureDetector(
       onTap: onTap,
@@ -133,7 +150,9 @@ class HomeView extends GetView<HomeController> {
           Text(
             title ?? '',
             style: TextStyle(
-                color: active ? AppColor.primaryColor : Colors.grey,
+                color: active
+                    ? ColorPalettes.instance.primary
+                    : ColorPalettes.instance.secondText,
                 fontSize: 24.rpx),
           )
         ],

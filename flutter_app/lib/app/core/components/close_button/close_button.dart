@@ -4,7 +4,9 @@ import '../custom_icons/app_icon.dart';
 
 class CustomCloseButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  const CustomCloseButton({super.key, this.onPressed});
+  final Color? color;
+  const CustomCloseButton(
+      {super.key, this.onPressed, this.color = Colors.black});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class CustomCloseButton extends StatelessWidget {
         width: 20,
         height: 20,
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.7),
+          color: color!.withOpacity(0.8),
           borderRadius: BorderRadius.circular(20),
         ),
         child: const Icon(

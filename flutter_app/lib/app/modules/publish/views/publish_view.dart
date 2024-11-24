@@ -6,10 +6,10 @@ import 'package:flutter_app/app/core/components/login_input/login_input.dart';
 import 'package:flutter_app/app/core/constants/colors/app_color.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/core/extensions/string_extension.dart';
+import 'package:flutter_app/app/core/theme/color_palettes.dart';
 import 'package:flutter_app/app/core/utils/tool/app_util.dart';
 import 'package:flutter_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import '../../../core/components/close_button/close_button.dart';
@@ -20,43 +20,51 @@ class PublishView extends GetView<PublishController> {
   const PublishView({super.key});
   @override
   Widget build(BuildContext context) {
-    return ColoredStatusBar(
-      child: Scaffold(
-        backgroundColor: AppColor.white,
-        appBar: AppBar(
-          title: Text('publish_title'.tr),
-          leading: IconButton(
-            icon: const Icon(AppIcon.close),
-            onPressed: () => Get.back(),
+    return Obx(
+      () => ColoredStatusBar(
+        child: Scaffold(
+          backgroundColor: ColorPalettes.instance.background,
+          appBar: AppBar(
+            backgroundColor: ColorPalettes.instance.pure,
+            title: Text('publish_title'.tr),
+            leading: IconButton(
+              icon: Icon(
+                AppIcon.close,
+                size: 50.rpx,
+                color: ColorPalettes.instance.firstIcon,
+              ),
+              onPressed: () => Get.back(),
+            ),
+            centerTitle: true,
+            actions: [
+              Obx(() {
+                bool disabled = controller.content.value.isEmpty &&
+                    controller.images.value.isEmpty;
+                return TDButton(
+                  text: '发布',
+                  size: TDButtonSize.extraSmall,
+                  type: TDButtonType.fill,
+                  shape: TDButtonShape.round,
+                  theme: TDButtonTheme.primary,
+                  disabled: disabled,
+                  textStyle: TextStyle(fontSize: 24.rpx),
+                  disableTextStyle: TextStyle(fontSize: 24.rpx),
+                  onTap: () => controller.save(),
+                );
+              }),
+              const SizedBox(
+                width: 10,
+              )
+            ],
           ),
-          centerTitle: true,
-          actions: [
-            Obx(() {
-              bool disabled = controller.content.value.isEmpty &&
-                  controller.images.value.isEmpty;
-              return TDButton(
-                text: '发布',
-                size: TDButtonSize.extraSmall,
-                type: TDButtonType.fill,
-                shape: TDButtonShape.round,
-                theme: TDButtonTheme.primary,
-                disabled: disabled,
-                textStyle: TextStyle(fontSize: 24.rpx),
-                disableTextStyle: TextStyle(fontSize: 24.rpx),
-                onTap: () => controller.save(),
-              );
-            }),
-            const SizedBox(
-              width: 10,
-            )
-          ],
+          body: Obx(() => _buildBody()),
         ),
-        body: Obx(() => _buildBody()),
       ),
     );
   }
 
   Widget _buildBody() {
+    var isDarkStyle = ColorPalettes.instance.isDark();
     return SizedBox(
       height: Get.height,
       child: Stack(
@@ -68,7 +76,9 @@ class PublishView extends GetView<PublishController> {
               children: [
                 Container(
                   height: 1,
-                  color: AppColor.line,
+                  color: isDarkStyle
+                      ? ColorPalettes.instance.background
+                      : AppColor.line,
                 ),
                 TDCell(
                   arrow: true,
@@ -82,13 +92,14 @@ class PublishView extends GetView<PublishController> {
                       horizontal: 10,
                       vertical: 10,
                     ),
-                    backgroundColor: Colors.white,
-                    leftIconColor: AppColor.primaryColor,
-                    titleStyle: const TextStyle(
-                      color: AppColor.primaryColor,
+                    backgroundColor: ColorPalettes.instance.background,
+                    leftIconColor: ColorPalettes.instance.primary,
+                    arrowColor: ColorPalettes.instance.secondIcon,
+                    titleStyle: TextStyle(
+                      color: ColorPalettes.instance.primary,
                     ),
-                    noteStyle: const TextStyle(
-                      color: AppColor.subTitle,
+                    noteStyle: TextStyle(
+                      color: ColorPalettes.instance.secondText,
                     ),
                   ),
                   onClick: (cell) {
@@ -98,7 +109,7 @@ class PublishView extends GetView<PublishController> {
                 _inputView(),
                 ..._publistViews(),
                 Container(
-                  color: AppColor.white,
+                  color: ColorPalettes.instance.background,
                   height: 10,
                 ),
               ],
@@ -137,7 +148,7 @@ class PublishView extends GetView<PublishController> {
 
   Widget _inputView() {
     return Container(
-      color: Get.isDarkMode ? Colors.black : AppColor.white,
+      color: ColorPalettes.instance.inputBackground,
       child: TDTextarea(
         hintText: '分享你的想法...',
         maxLines: 4,
@@ -145,9 +156,14 @@ class PublishView extends GetView<PublishController> {
         onChanged: (value) {
           controller.content.value = value;
         },
-        textStyle: const TextStyle(fontSize: 16),
-        backgroundColor: AppColor.white,
-        textInputBackgroundColor: AppColor.white,
+        textStyle: TextStyle(
+            fontSize: 28.rpx, color: ColorPalettes.instance.firstText),
+        hintTextStyle: TextStyle(
+          fontSize: 28.rpx,
+          color: ColorPalettes.instance.thirdText,
+        ),
+        backgroundColor: ColorPalettes.instance.inputBackground,
+        textInputBackgroundColor: ColorPalettes.instance.inputBackground,
         padding: const EdgeInsets.all(20),
         bordered: false,
         controller: controller.contentEditingController,
@@ -156,18 +172,18 @@ class PublishView extends GetView<PublishController> {
   }
 
   Widget _publishButton() {
-    const Color color = AppColor.primaryColor;
-    Color disableColor = AppColor.primaryColor.withAlpha(900);
+    Color color = ColorPalettes.instance.primary;
+    Color disableColor = color.withAlpha(900);
     final double size = 50.rpx;
     return Container(
       padding: EdgeInsets.only(
         bottom: controller.showRecord.value ? 0 : AppUtil.getSafeAreaHeight(),
       ),
       decoration: BoxDecoration(
-        color: Get.isDarkMode ? Colors.black : Colors.white,
+        color: ColorPalettes.instance.pure,
         border: Border(
           top: BorderSide(
-            color: AppColor.subBg,
+            color: ColorPalettes.instance.background,
             width: 2.rpx,
           ),
         ),
@@ -286,7 +302,7 @@ class PublishView extends GetView<PublishController> {
       children.add(_imageItem(controller.images.value[i], i));
     }
     return Container(
-      color: Get.isDarkMode ? Colors.black : AppColor.white,
+      color: ColorPalettes.instance.background,
       child: GridView(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -346,6 +362,7 @@ class PublishView extends GetView<PublishController> {
         width: 300.rpx,
         height: 300.rpx,
         alignment: Alignment.centerLeft,
+        color: ColorPalettes.instance.background,
         padding: EdgeInsets.all(20.rpx),
         child: Stack(
           alignment: Alignment.centerLeft,
@@ -381,7 +398,7 @@ class PublishView extends GetView<PublishController> {
 
   Widget _recordView() {
     return Container(
-      color: Colors.white,
+      color: ColorPalettes.instance.background,
       alignment: Alignment.center,
       height: 460.rpx,
       child: Column(
@@ -444,7 +461,7 @@ class PublishView extends GetView<PublishController> {
 
   Widget _emojiView() {
     return Container(
-      color: Colors.white,
+      color: ColorPalettes.instance.background,
       alignment: Alignment.center,
       height: 600.rpx,
       child: EmojiPicker(

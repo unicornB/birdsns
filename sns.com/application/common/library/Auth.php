@@ -176,6 +176,13 @@ class Auth
             'status'    => 'normal'
         ]);
         $params['password'] = $this->getEncryptPassword($password, $params['salt']);
+        $region=ip_search($ip);
+        if($region!=null){
+            $arr = explode("|", $region);
+            $params['city']=$arr[3];
+            $params['country']=$arr[0];
+            $params['province']=$arr[2];
+        }
         $params = array_merge($params, $extend);
 
         //账号注册时需要开启事务,避免出现垃圾数据

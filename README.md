@@ -2,7 +2,7 @@
 
 # BirdSns
 BirdSns - A simple social app
-
+目前还在开发中...
 ## 核心功能
 1. **用户注册与登录**
    - 支持手机号、邮箱或第三方账号（如微信、Google）登录。

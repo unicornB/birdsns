@@ -40,8 +40,16 @@ BirdSns - A simple social app
 - https://docs.sns.cn/en
 - https://mockuphone.com
 
+安卓证书申请
+- https://ask.dcloud.net.cn/article/35777
+keytool -genkey -alias birdsns -keyalg RSA -keysize 2048 -validity 36500 -keystore birdsns.keystore
+密码：123456
+keytool -genkey -v -keystore ~/birdsns.jks -keyalg RSA -keysize 2048 -validity 10000 -alias birdsns
+
 ## Demo APP
 扫描下载apk体验
+<br/>
+https://app.122.city/5tmgqjvu
 <br/>
 <img src="https://github.com/unicornB/birdsns/blob/github_master/images/5tmgqjvu.png?raw=true" width="100" height="100" alt="Demo App Screenshot" />
 

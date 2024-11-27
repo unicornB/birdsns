@@ -38,7 +38,7 @@ class TextItem extends StatelessWidget {
         }
       },
       child: Container(
-        color: ColorPalettes.instance.background,
+        color: ColorPalettes.instance.card,
         margin: EdgeInsets.only(top: 10.rpx),
         padding: EdgeInsets.all(20.rpx),
         child: Column(

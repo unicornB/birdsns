@@ -10,21 +10,39 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/components/no_over_scroll_behavior/no_over_scroll_behavior.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double pinnedHeaderHeight =
+        //statusBar height
+        statusBarHeight +
+            //pinned SliverAppBar height in header
+            kToolbarHeight;
     return MaterialApp(
-      home: ExtendedNestedScrollView(
-        controller: controller.scrollController,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            Obx(() => _buildAppBar()),
-          ];
-        },
-        body: Container(),
+      debugShowCheckedModeBanner: false,
+      home: ScrollConfiguration(
+        behavior: NoOverScrollBehavior(),
+        child: ExtendedNestedScrollView(
+          controller: controller.scrollController,
+          onlyOneScrollInBody: true,
+          pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              Obx(() => _buildAppBar()),
+            ];
+          },
+          body: Obx(
+            () => TabBarView(
+              controller: controller.tabController,
+              children: controller.navPages.value,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -33,7 +51,7 @@ class ProfileView extends GetView<ProfileController> {
     return SliverAppBar(
       scrolledUnderElevation: 0.0,
       toolbarHeight: 88.w,
-      backgroundColor: ColorPalettes.instance.background,
+      backgroundColor: ColorPalettes.instance.card,
       expandedHeight: controller.expandedHeight,
       title: _titleBar(),
       automaticallyImplyLeading: false,
@@ -46,7 +64,7 @@ class ProfileView extends GetView<ProfileController> {
       ),
       flexibleSpace: _flexibleSpace(Get.context!),
       bottom: PreferredSize(
-        preferredSize: Size(double.infinity, 100.w),
+        preferredSize: Size(double.infinity, 78.w),
         child: _tabBar(),
       ),
     );
@@ -59,7 +77,7 @@ class ProfileView extends GetView<ProfileController> {
       child: Container(
         width: double.infinity,
         height: 88.w,
-        color: ColorPalettes.instance.background
+        color: ColorPalettes.instance.card
             .withOpacity(controller.titleBarAlpha.value),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,11 +104,25 @@ class ProfileView extends GetView<ProfileController> {
               child: Row(
                 children: [
                   controller.profile.value.avatar != null
-                      ? controller.profile.value.avatar!
-                          .toCircleCachedNetworkImage(
+                      ? Container(
                           width: 80.rpx,
                           height: 80.rpx,
-                          radius: 40.rpx,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80.rpx / 2),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 1,
+                            ),
+                          ),
+                          child: ClipOval(
+                            //圆角图片
+                            child: controller.profile.value.avatar!
+                                .toCircleCachedNetworkImage(
+                              width: 80.rpx,
+                              height: 80.rpx,
+                              radius: 40.rpx,
+                            ),
+                          ),
                         )
                       : Container(),
                   SizedBox(
@@ -143,7 +175,7 @@ class ProfileView extends GetView<ProfileController> {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: ColorPalettes.instance.background,
+        color: ColorPalettes.instance.card,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(32.w),
           topRight: Radius.circular(32.w),
@@ -178,11 +210,23 @@ class ProfileView extends GetView<ProfileController> {
                             Hero(
                               tag: "user_avatar",
                               child: controller.profile.value.avatar != null
-                                  ? controller.profile.value.avatar!
-                                      .toCircleCachedNetworkImage(
+                                  ? Container(
                                       width: 130.rpx,
                                       height: 130.rpx,
-                                      radius: 65.rpx,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(130.rpx / 2),
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: controller.profile.value.avatar!
+                                          .toCircleCachedNetworkImage(
+                                        width: 130.rpx,
+                                        height: 130.rpx,
+                                        radius: 65.rpx,
+                                      ),
                                     )
                                   : Container(),
                             ),
@@ -278,45 +322,49 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   Widget _tabBar() {
-    return TabBar(
-      controller: controller.tabController,
-      indicatorSize: TabBarIndicatorSize.tab,
-      isScrollable: false,
-      indicator: UnderlineTabIndicator(
+    return Container(
+      child: TabBar(
+        controller: controller.tabController,
+        indicatorSize: TabBarIndicatorSize.tab,
+        isScrollable: false,
+        indicator: UnderlineTabIndicator(
           borderRadius: BorderRadius.circular(4.w),
-          insets: EdgeInsets.symmetric(horizontal: 72.w),
-          borderSide: BorderSide(width: 4.w, color: AppColor.primaryColor)),
-      labelPadding: const EdgeInsets.all(0),
-      labelColor: AppColor.primaryColor,
-      unselectedLabelColor: Color(0xff666666),
-      labelStyle: TextStyle(fontSize: 36.w, fontWeight: FontWeight.bold),
-      unselectedLabelStyle:
-          TextStyle(fontSize: 32.w, fontWeight: FontWeight.normal),
-      //未选中时标签的颜色
-      onTap: (int index) {},
-      tabs: controller.tabs.value.map((tab) {
-        return Container(
-          height: 72.w,
-          alignment: Alignment.center,
-          child: Text(
-            tab,
-            textAlign: TextAlign.center,
-          ),
-        );
-      }).toList(),
+          insets: EdgeInsets.symmetric(
+              horizontal: controller.tabs.length == 4 ? 72.w : 160.w),
+          borderSide:
+              BorderSide(width: 4.w, color: ColorPalettes.instance.primary),
+        ),
+        labelPadding: const EdgeInsets.all(0),
+        labelColor: ColorPalettes.instance.primary,
+        unselectedLabelColor: ColorPalettes.instance.secondText,
+        labelStyle: TextStyle(fontSize: 28.rpx, fontWeight: FontWeight.bold),
+        unselectedLabelStyle:
+            TextStyle(fontSize: 28.rpx, fontWeight: FontWeight.normal),
+        //未选中时标签的颜色
+        onTap: (int index) {
+          controller.jumpToPage(index);
+        },
+        tabs: controller.tabs.value.map((tab) {
+          return Container(
+            height: 72.w,
+            alignment: Alignment.center,
+            child: Text(
+              tab,
+              textAlign: TextAlign.center,
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 
   Widget _editButton() {
-    if (!controller.isSelf()) {
-      return const SizedBox();
-    }
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {},
       child: Container(
         margin: EdgeInsets.only(top: 80.w),
-        width: 160.w,
+        width: controller.isSelf() ? 160.w : 120.rpx,
         height: 56.w,
         alignment: Alignment.center,
         decoration: BoxDecoration(

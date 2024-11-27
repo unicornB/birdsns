@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app/core/components/color_status_bar/color_status_bar.dart';
 import 'package:flutter_app/app/core/constants/colors/app_color.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/core/extensions/string_extension.dart';
@@ -18,72 +19,75 @@ class NotificationPage extends GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorPalettes.instance.background,
-      body: RefreshIndicator(
-        color: ColorPalettes.instance.primary,
+    return ColoredStatusBar(
+      child: Scaffold(
         backgroundColor: ColorPalettes.instance.background,
-        onRefresh: () async {
-          controller.onRefresh();
-        },
-        child: Obx(
-          () => ListView(
-            shrinkWrap: true,
-            controller: controller.scrollController,
-            children: [
-              ..._listView(),
-              controller.notificationList.value.isEmpty
-                  ? Container(
-                      height: Get.height,
-                      color: ColorPalettes.instance.background,
-                      child: TDEmpty(
-                        type: TDEmptyType.plain,
-                        emptyText: '暂无通知',
-                        emptyTextColor: ColorPalettes.instance.firstText,
-                        image: Container(
-                          margin: EdgeInsets.only(top: 50.rpx),
-                          width: 100,
-                          height: 100,
-                          child: Icon(
-                            AppIcon.empty,
-                            size: 100.rpx,
-                            color: ColorPalettes.instance.firstText,
+        body: RefreshIndicator(
+          color: ColorPalettes.instance.primary,
+          backgroundColor: ColorPalettes.instance.background,
+          onRefresh: () async {
+            controller.onRefresh();
+          },
+          child: Obx(
+            () => ListView(
+              shrinkWrap: true,
+              controller: controller.scrollController,
+              children: [
+                ..._listView(),
+                controller.notificationList.value.isEmpty
+                    ? Container(
+                        height: Get.height,
+                        color: ColorPalettes.instance.background,
+                        child: TDEmpty(
+                          type: TDEmptyType.plain,
+                          emptyText: '暂无通知',
+                          emptyTextColor: ColorPalettes.instance.firstText,
+                          image: Container(
+                            margin: EdgeInsets.only(top: 50.rpx),
+                            width: 100,
+                            height: 100,
+                            child: Icon(
+                              AppIcon.empty,
+                              size: 100.rpx,
+                              color: ColorPalettes.instance.firstText,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : controller.loading.value
-                      ? Container(
-                          alignment: Alignment.center,
-                          child: const TDLoading(
-                            size: TDLoadingSize.small,
-                            icon: TDLoadingIcon.circle,
-                            text: '加载中…',
-                            axis: Axis.horizontal,
-                          ),
-                        )
-                      : controller.hasMore.value
-                          ? Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.rpx),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "上拉加载更多",
-                                style: TextStyle(
-                                    color: AppColor.subTitle, fontSize: 26.rpx),
-                              ),
-                            )
-                          : Container(
-                              color: ColorPalettes.instance.background,
-                              padding: EdgeInsets.symmetric(vertical: 10.rpx),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "没有更多了",
-                                style: TextStyle(
-                                    color: ColorPalettes.instance.secondText,
-                                    fontSize: 26.rpx),
-                              ),
+                      )
+                    : controller.loading.value
+                        ? Container(
+                            alignment: Alignment.center,
+                            child: const TDLoading(
+                              size: TDLoadingSize.small,
+                              icon: TDLoadingIcon.circle,
+                              text: '加载中…',
+                              axis: Axis.horizontal,
                             ),
-            ],
+                          )
+                        : controller.hasMore.value
+                            ? Container(
+                                padding: EdgeInsets.symmetric(vertical: 10.rpx),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "上拉加载更多",
+                                  style: TextStyle(
+                                      color: AppColor.subTitle,
+                                      fontSize: 26.rpx),
+                                ),
+                              )
+                            : Container(
+                                color: ColorPalettes.instance.background,
+                                padding: EdgeInsets.symmetric(vertical: 10.rpx),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "没有更多了",
+                                  style: TextStyle(
+                                      color: ColorPalettes.instance.secondText,
+                                      fontSize: 26.rpx),
+                                ),
+                              ),
+              ],
+            ),
           ),
         ),
       ),
@@ -107,7 +111,7 @@ class NotificationPage extends GetView<NotificationController> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.rpx, vertical: 20.rpx),
         margin: EdgeInsets.only(top: isDarkStyle ? 0 : 10.rpx),
-        color: ColorPalettes.instance.background,
+        color: ColorPalettes.instance.card,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -60,6 +60,7 @@ class ImageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var images = feed.images!.split(",");
     int len = feed.images!.split(",").length;
+
     return GestureDetector(
       onTap: () {
         if (onTap != null) {
@@ -70,7 +71,7 @@ class ImageItem extends StatelessWidget {
         width: 750.rpx,
         padding: EdgeInsets.all(20.rpx),
         margin: EdgeInsets.only(top: 10.rpx),
-        color: ColorPalettes.instance.background,
+        color: ColorPalettes.instance.card,
         alignment: Alignment.centerLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

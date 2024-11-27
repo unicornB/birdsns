@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app/core/components/color_status_bar/color_status_bar.dart';
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/modules/home/views/pages/message_pages/chatlist_page.dart';
 import 'package:flutter_app/app/modules/home/views/pages/message_pages/notification_page.dart';
@@ -17,16 +18,18 @@ class MessagePage extends GetView<MesageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Scaffold(
-        appBar: commonAppBar(
-          backgroundColor: ColorPalettes.instance.pure,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(108.rpx),
-            child: _appbarWidget(),
+      () => ColoredStatusBar(
+        child: Scaffold(
+          appBar: commonAppBar(
+            backgroundColor: ColorPalettes.instance.pure,
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(108.rpx),
+              child: _appbarWidget(),
+            ),
+            iconDark: false,
           ),
-          iconDark: false,
+          body: _buildBody(),
         ),
-        body: _buildBody(),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app/core/constants/colors/app_color.dart';
+
 import 'package:flutter_app/app/core/extensions/rpx_int_extendsion.dart';
 import 'package:flutter_app/app/core/extensions/string_extension.dart';
 import 'package:flutter_app/app/core/models/circle.m.dart';
@@ -45,7 +45,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _myCircleTitle() {
     return Container(
-      color: ColorPalettes.instance.background,
+      color: ColorPalettes.instance.card,
       padding: EdgeInsets.only(top: 20.rpx, left: 20.rpx, right: 20.rpx),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,7 +86,7 @@ class CirclePage extends GetView<CirclePageController> {
   Widget _myCircle() {
     return Container(
       width: Get.width,
-      color: ColorPalettes.instance.background,
+      color: ColorPalettes.instance.card,
       padding: EdgeInsets.only(left: 20.rpx, right: 20.rpx, bottom: 20.rpx),
       child: Obx(() => Wrap(
             children: controller.mylist.value.map((circle) {
@@ -132,7 +132,7 @@ class CirclePage extends GetView<CirclePageController> {
   Widget _myHistoryTitle(String title, String subtitle,
       {void Function()? onTap}) {
     return Container(
-      color: ColorPalettes.instance.background,
+      color: ColorPalettes.instance.card,
       padding: EdgeInsets.only(top: 20.rpx, left: 20.rpx, right: 20.rpx),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,7 +170,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _myHistory() {
     return Container(
-      color: ColorPalettes.instance.background,
+      color: ColorPalettes.instance.card,
       width: double.infinity,
       padding: EdgeInsets.only(
           left: 20.rpx, right: 20.rpx, bottom: 20.rpx, top: 20.rpx),
@@ -214,7 +214,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _hostCircleList() {
     return Container(
-      color: ColorPalettes.instance.background,
+      color: ColorPalettes.instance.card,
       child: Obx(
         () => Column(
           children: controller.recList.value.map((circle) {
@@ -227,7 +227,7 @@ class CirclePage extends GetView<CirclePageController> {
 
   Widget _hotCircleItem(Circle circle) {
     return Container(
-      color: ColorPalettes.instance.background,
+      color: ColorPalettes.instance.card,
       padding: EdgeInsets.only(
           top: 20.rpx, left: 20.rpx, right: 20.rpx, bottom: 20.rpx),
       child: Row(

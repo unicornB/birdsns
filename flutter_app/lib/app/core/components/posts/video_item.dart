@@ -54,7 +54,7 @@ class _VideoItemState extends State<VideoItem> {
         width: 750.rpx,
         padding: EdgeInsets.all(20.rpx),
         margin: EdgeInsets.only(top: 10.rpx),
-        color: ColorPalettes.instance.background,
+        color: ColorPalettes.instance.card,
         alignment: Alignment.centerLeft,
         child: Container(
           alignment: Alignment.centerLeft,

@@ -46,7 +46,7 @@ class ColorPalettes {
         .where((element) => element.index == curPalettesIndex)
         .first;
     palettesStyle = curPalettes.obs;
-    changeTheme(PalettesStyle.dark);
+    changeTheme(PalettesStyle.blue);
   }
 
   /// 改变主题色

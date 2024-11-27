@@ -154,9 +154,11 @@ class AppService extends GetxService {
   }
 
   void getNotificationCount() {
-    NotificationApi.getCount().then((res) {
-      EventBusUtil.getInstance().fire(NotifiyEvent(res['data']));
-      setNotificationCount(res['data']);
-    });
+    if (isLogined.value) {
+      NotificationApi.getCount().then((res) {
+        EventBusUtil.getInstance().fire(NotifiyEvent(res['data']));
+        setNotificationCount(res['data']);
+      });
+    }
   }
 }

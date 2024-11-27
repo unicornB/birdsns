@@ -13,6 +13,7 @@ Innoshop is an Open Source eCommerce System based on Laravel 11, supporting mult
 
 ## Documentation
 - https://docs.sns.cn/en
+- https://mockuphone.com
 
 ## Demo APP
 - Frontend: https://demo.innoshop.cn
@@ -23,7 +24,7 @@ Innoshop is an Open Source eCommerce System based on Laravel 11, supporting mult
 ### Frontend Screenshot
 <p align="center">
     <a href="https://www.innoshop.cn"  target="_blank">
-        <img src="https://github.com/unicornB/birdsns/blob/github_master/images/1.jpg"  alt="Front">
+        <img src="https://github.com/unicornB/birdsns/blob/github_master/images/1-portrait.jpg"  alt="Front">
     </a>
 </p>
 

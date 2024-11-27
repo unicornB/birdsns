@@ -43,7 +43,7 @@ BirdSns - A simple social app
 ## Demo APP
 扫描下载apk体验
 <br/>
-<img src="https://github.com/unicornB/birdsns/blob/github_master/images/5tmgqjvu.png?raw=true" width="200" height="400" alt="Demo App Screenshot" />
+<img src="https://github.com/unicornB/birdsns/blob/github_master/images/5tmgqjvu.png?raw=true" width="100" height="100" alt="Demo App Screenshot" />
 
 ### Frontend Screenshot
 <table>
